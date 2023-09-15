@@ -1,0 +1,33 @@
+{
+  "name": "library",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@types/node": "20.5.7",
+    "@types/react": "18.2.21",
+    "@types/react-dom": "18.2.7",
+    "autoprefixer": "10.4.15",
+    "classnames": "^2.3.2",
+    "eslint": "8.48.0",
+    "eslint-config-next": "13.4.19",
+    "framer-motion": "^10.16.1",
+    "next": "13.4.19",
+    "next-seo": "^6.1.0",
+    "postcss": "8.4.28",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "3.3.3",
+    "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "citation-js": "^0.6.8",
+    "lottie-react": "^2.4.0",
+    "tailwind-scrollbar": "^3.0.5"
+  }
+}
