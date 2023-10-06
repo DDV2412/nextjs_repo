@@ -45,6 +45,7 @@ const Home: MyPage = () => {
                   </h2>
                   <Link
                     href="#"
+                    aria-label="View All Topic"
                     className="flex group justify-start items-center gap-2 text-sm font-medium transition-all duration-150">
                     <span>View All Topics</span>
                     <div className="w-5 h-5 flex justify-center items-center group-hover:translate-x-3 transition-all duration-150">
@@ -70,6 +71,7 @@ const Home: MyPage = () => {
                       index <= 6 &&
                       aggr._id !== '' && (
                         <Link
+                          aria-label="Search Article"
                           href={`/articles?search=${aggr._id}`}
                           key={index}
                           className="bg-slate-900 text-white flex-1 hover:shadow-lg cursor-pointer hover:scale-105 transition-all duration-150 h-28 flex justify-center items-center text-lg font-medium text-center">

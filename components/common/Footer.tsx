@@ -8,57 +8,68 @@ const Footer = () => {
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
           <div className="flex flex-col justify-start gap-4">
-            <h4 className="font-medium">Products</h4>
+            <div className="font-medium">Products</div>
             <ul className="flex flex-col justify-start gap-3">
               <li>
-                <Link href="#" className="text-slate-400">
+                <Link
+                  aria-label="Publication"
+                  href="#"
+                  className="text-slate-400">
                   Publication
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-slate-400">
+                <Link href="#" aria-label="Library" className="text-slate-400">
                   Library
                 </Link>
               </li>
             </ul>
           </div>
           <div className="flex flex-col justify-start gap-4">
-            <h4 className="font-medium">Company</h4>
+            <div className="font-medium">Company</div>
             <ul className="flex flex-col justify-start gap-3">
               <li>
-                <Link href="#" className="text-slate-400">
+                <Link href="#" aria-label="About Us" className="text-slate-400">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-slate-400">
+                <Link href="#" aria-label="Contact" className="text-slate-400">
                   Contact
                 </Link>
               </li>
             </ul>
           </div>
           <div className="flex flex-col justify-start gap-4">
-            <h4 className="font-medium">Resources</h4>
+            <div className="font-medium">Resources</div>
             <ul className="flex flex-col justify-start gap-3">
               <li>
-                <Link href="#" className="text-slate-400">
+                <Link
+                  href="#"
+                  aria-label="Privacy Policy"
+                  className="text-slate-400">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-slate-400">
+                <Link
+                  href="#"
+                  aria-label="Terms & Condition"
+                  className="text-slate-400">
                   Terms & Conditions
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-slate-400">
+                <Link href="#" aria-label="FAQs" className="text-slate-400">
                   FAQs
                 </Link>
               </li>
             </ul>
           </div>
           <div className="w-full md:w-3/4 md:col-span-3 lg:col-span-2 flex flex-col justify-center lg:justify-start gap-4">
-            <h4 className="font-medium">Get discounts and gifts every week!</h4>
+            <div className="font-medium">
+              Get discounts and gifts every week!
+            </div>
             <p className="text-slate-400 max-w-[75%]">
               The latest promotions, new products and resources. sent to your
               inbox weekly.
@@ -73,9 +84,10 @@ const Footer = () => {
               <ButtonPrimary type="submit">Subscribe</ButtonPrimary>
             </form>
             <div className="mt-4 flex justify-between items-center">
-              <h4 className="font-medium">Follow Us</h4>
+              <div className="font-medium">Follow Us</div>
               <div className="flex justify-end items-center gap-3">
                 <Link
+                  aria-label="Facebook"
                   href="#"
                   className="w-6 h-6 flex justify-center items-center text-slate-200">
                   <svg
@@ -99,6 +111,7 @@ const Footer = () => {
                 </Link>
                 <Link
                   href="#"
+                  aria-label="Instagram"
                   className="w-6 h-6 flex justify-center items-center text-slate-200">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -114,6 +127,7 @@ const Footer = () => {
                 </Link>
                 <Link
                   href="#"
+                  aria-label="Twitter"
                   className="w-6 h-6 flex justify-center items-center text-slate-200">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -129,6 +143,7 @@ const Footer = () => {
                 </Link>
                 <Link
                   href="#"
+                  aria-label="LinkedIn"
                   className="w-6 h-6 flex justify-center items-center text-slate-200">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -9,7 +9,10 @@ const Navbar = () => {
   return (
     <nav className="container py-4">
       <div className="flex justify-between items-center gap-6">
-        <Link href="/" className="text-indigo-700 hover:opacity-80 h-10">
+        <Link
+          aria-label="Brand Logo"
+          href="/"
+          className="text-indigo-700 hover:opacity-80 h-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="100%"
@@ -69,6 +72,7 @@ const Navbar = () => {
             <ButtonLink href="#">Log In</ButtonLink>
           </div>
           <button
+            aria-label="Nav Toggle"
             onClick={() => setShowNav(!showNav)}
             className="relative overflow-hidden w-8 h-8 flex lg:hidden justify-start group items-center transition-all duration-150">
             <div className="absolute group-hover:w-full transition-all duration-150 w-full h-0.5 top-1/2 transform -translate-y-2 bg-slate-900 rounded-lg"></div>

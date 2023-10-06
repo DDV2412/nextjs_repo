@@ -68,7 +68,10 @@ const HeroSection = () => {
                   <div className="w-[40%] absolute top-[50%] left-0 -translate-y-[50%] h-[1px] bg-slate-600"></div>
                   <div className="w-[40%] absolute top-[50%] right-0 -translate-y-[50%] h-[1px] bg-slate-600"></div>
                 </div>
-                <Link href="/advanced-search" className="text-white">
+                <Link
+                  aria-label="Advanced Search"
+                  href="/advanced-search"
+                  className="text-white">
                   Advanced Search
                 </Link>
               </div>

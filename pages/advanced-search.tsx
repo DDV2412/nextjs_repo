@@ -255,6 +255,7 @@ const AdvancedSearch: MyPage = () => {
                 </select>
                 <button
                   type="button"
+                  aria-label="Advanced Remove"
                   onClick={() => removeAdvancedOption(index)}
                   className="bg-rose-700 text-white p-3 rounded-lg">
                   <svg

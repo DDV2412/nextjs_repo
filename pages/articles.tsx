@@ -431,7 +431,9 @@ const Articles: MyPage = () => {
                       onChange={(e) => setSearchWithinQuery(e.target.value)}
                       className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg outline-none bg-slate-100/30 text-slate-900"
                     />
-                    <button className="w-6 h-6 absolute right-2 top-3 text-slate-400">
+                    <button
+                      aria-label="Button Search"
+                      className="w-6 h-6 absolute right-2 top-3 text-slate-400">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="100%"
@@ -795,6 +797,7 @@ const Articles: MyPage = () => {
                             {query[filterKey]}
                             <button
                               key={index}
+                              aria-label="Button Filter"
                               onClick={(e) => deleteQuery(filterKey)}
                               className="p-0.5 absolute -top-2 -right-2 bg-white rounded-lg shadow-inner">
                               <svg

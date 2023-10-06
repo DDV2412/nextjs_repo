@@ -4,11 +4,18 @@ interface NextLinkProps {
   href: string;
   children: React.ReactNode;
   className?: string;
+  ariaLabel?: string;
 }
 
-const ButtonLink = ({ href, children, className }: NextLinkProps) => {
+const ButtonLink = ({
+  href,
+  children,
+  className,
+  ariaLabel,
+}: NextLinkProps) => {
   return (
     <Link
+      aria-label={ariaLabel || 'Link'}
       href={href}
       className={`relative  border-2 border-indigo-700 transition-all duration-150 group overflow-hidden hover:text-indigo-700 hover:border-slate-200 py-3 px-7 flex justify-center items-center font-medium text-sm md:text-base bg-indigo-700 rounded-lg text-white ${
         className ? className : 'max-w-max'

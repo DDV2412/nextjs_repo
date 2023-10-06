@@ -56,15 +56,15 @@ const Detail: MyPage = () => {
   }, [slug]);
 
   useEffect(() => {
-    if (article.subjects.length > 0) {
-      fetch(`/api/articles?subject_filter=${article.subjects[0]}`)
+    if (article?.subjects.length > 0) {
+      fetch(`/api/articles?subject_filter=${article?.subjects[0]}`)
         .then((res) => res.json())
         .then((data) => {
           setLoading(false);
           setArticles(data.data);
         });
     } else {
-      fetch(`/api/articles?journal_filter=${article.journal.title}`)
+      fetch(`/api/articles?journal_filter=${article?.journal.title}`)
         .then((res) => res.json())
         .then((data) => {
           setLoading(false);
@@ -143,8 +143,11 @@ const Detail: MyPage = () => {
   return (
     <>
       <NextSeo
-        title={`${article.title} | IPMUGO Digital Library`}
-        description={article.description}
+        title={
+          `${article?.title} | IPMUGO Digital Library` ||
+          `IPMUGO Digital Library`
+        }
+        description={article?.description}
       />
       {loading ? (
         <div className="min-h-screen">
@@ -157,20 +160,23 @@ const Detail: MyPage = () => {
               <div className="flex justify-center items-center h-full">
                 <div className="max-w-full flex flex-col gap-y-4 justify-center">
                   <h1 className="text-3xl text-center font-semibold text-white">
-                    {article.title}
+                    {article?.title}
                   </h1>
                   <p className="text-lg text-center text-white font-medium">
-                    {article.journal.title}
+                    {article?.journal.title}
                   </p>
                   <div className="text-center text-sm text-white flex justify-center flex-wrap gap-3">
-                    {authors.length > 0 ? (
+                    {authors?.length > 0 ? (
                       <>
-                        {authors.map((creator: any, index: number) => (
+                        {authors?.map((creator: any, index: number) => (
                           <div
                             key={index}
                             className="max-w-max flex justify-center gap-1 items-center">
                             {creator['ORCID'] && (
-                              <Link href={creator['ORCID']} target="_blank">
+                              <Link
+                                aria-label={creator['ORCID'] || 'Link'}
+                                href={creator['ORCID'] || '#'}
+                                target="_blank">
                                 <figure className="w-5 h-5 rounded-full overflow-hidden">
                                   <Image
                                     src="/images/orcid_logo.png"
@@ -191,13 +197,13 @@ const Detail: MyPage = () => {
                       </>
                     ) : (
                       <>
-                        {article.creators.map(
+                        {article?.creators.map(
                           (creator: string, index: number) => (
                             <div key={index} className="max-w-max">
                               <span>
                                 {creator.split(',')[1]} {creator.split(',')[0]}
                               </span>
-                              {index < article.creators.length - 1 && ','}
+                              {index < article?.creators.length - 1 && ','}
                             </div>
                           ),
                         )}
@@ -214,21 +220,21 @@ const Detail: MyPage = () => {
                 <div className="h-full md:max-w-[75%] md:col-span-2 lg:col-span-3 relative w-full overflow-hidden  pt-10 px-6 flex flex-col gap-4">
                   <h2 className="text-2xl font-semibold ">Abstract</h2>
                   <p className=" text-base text-slate-500">
-                    {article.description}
+                    {article?.description}
                   </p>
                   <div className="w-full h-[1px] bg-slate-200 my-8"></div>
                   <div className="flex flex-col justify-start flex-wrap gap-4">
                     <h2 className="text-2xl font-semibold ">DOI</h2>
-                    <p className=" text-base text-slate-500">{article.doi}</p>
+                    <p className=" text-base text-slate-500">{article?.doi}</p>
                   </div>
                   <div className="w-full h-[1px] bg-slate-200 my-8"></div>
                   <div className="flex flex-col justify-start flex-wrap gap-4">
                     <h2 className="text-2xl font-semibold ">Publisher</h2>
                     <p className=" text-base text-slate-500">
-                      {article.publisher}
+                      {article?.publisher}
                     </p>
                   </div>
-                  {article.subjects.length > 0 ? (
+                  {article?.subjects.length > 0 ? (
                     <>
                       {' '}
                       <div className="w-full h-[1px] bg-slate-200 my-8"></div>
@@ -240,7 +246,8 @@ const Detail: MyPage = () => {
                                 (subject: string, i: number) => (
                                   <Link
                                     key={i}
-                                    href={`/articles?search=${subject}`}
+                                    aria-label={subject || 'Link'}
+                                    href={`/articles?search=${subject}` || '#'}
                                     className="py-3 px-5 rounded-lg border-2 border-slate-100 text-slate-400">
                                     {subject}
                                   </Link>
@@ -256,11 +263,12 @@ const Detail: MyPage = () => {
                       <div className="flex flex-col justify-start flex-wrap gap-4">
                         <h2 className="text-2xl font-semibold ">Keywords</h2>
                         <div className="flex flex-wrap gap-4">
-                          {subjects.length > 0 &&
+                          {subjects?.length > 0 &&
                             subjects.map((subject, i) => (
                               <Link
                                 key={i}
-                                href={`/articles?search=${subject}`}
+                                aria-label={subject || 'Link'}
+                                href={`/articles?search=${subject}` || '#'}
                                 className="py-3 px-5 rounded-lg border-2 border-slate-100 text-slate-400">
                                 {subject}
                               </Link>
@@ -272,7 +280,8 @@ const Detail: MyPage = () => {
                 </div>
                 <div className="flex pt-6 pb-10 flex-col ">
                   <Link
-                    href={article.file_view}
+                    aria-label={article?.title || 'Link'}
+                    href={article?.file_view || '#'}
                     target="_blank"
                     className="mb-8 w-full bg-indigo-700 text-white flex justify-center gap-3 items-center py-4 uppercase font-medium">
                     <svg
@@ -291,8 +300,8 @@ const Detail: MyPage = () => {
                     </svg>
                     <span>Full View</span>
                   </Link>
-                  {!article.doi.includes('https') &&
-                  !article.doi.includes('http') ? (
+                  {!article?.doi.includes('https') &&
+                  !article?.doi.includes('http') ? (
                     <>
                       <h2 className="text-2xl font-semibold mb-4">Cited</h2>
                       <div className="mb-8 w-full">
@@ -355,7 +364,8 @@ const Detail: MyPage = () => {
                         <>
                           <article>
                             <Link
-                              href={related._id}
+                              aria-label={related.title || 'Link'}
+                              href={related._id || '#'}
                               className="flex flex-col gap-4">
                               <div className="flex flex-col gap-2">
                                 <h3 className="font-medium line-clamp-2">
