@@ -42,6 +42,7 @@ const Journals: MyPage = () => {
                       alt={journal.title}
                       width={500}
                       height={500}
+                      className="w-full h-full object-cover"
                     />
                   </figure>
                   <div className="absolute flex flex-col gap-3 left-0 bottom-0 right-0 min-h-[40%] bg-white/80 backdrop-blur-sm p-4 rounded-t-lg">
