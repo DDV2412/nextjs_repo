@@ -65,7 +65,7 @@ const Home: MyPage = () => {
                     </div>
                   </Link>
                 </div>
-                <div className="mt-10 flex justify-between items-center gap-4 overflow-scroll">
+                <div className="mt-10 flex justify-between items-center gap-4 overflow-x-scroll scroll-smooth scrollbar scrollbar-track-transparent">
                   {articles?.aggrs.subjects.map(
                     (aggr: any, index: number) =>
                       index <= 6 &&
