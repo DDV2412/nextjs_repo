@@ -82,7 +82,7 @@ const Home: MyPage = () => {
             </section>
             <section className="container">
               <div className="pt-6 pb-10">
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
                   <div className="relative w-full overflow-hidden lg:row-span-2 py-12 px-6 bg-[url('/images/banner.jpg')] flex flex-col gap-4">
                     <h2 className="text-2xl font-semibold text-white">
                       Featured Articles
