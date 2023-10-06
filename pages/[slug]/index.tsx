@@ -155,7 +155,7 @@ const Detail: MyPage = () => {
           <section className="container bg-[url('/images/hero-bg.jpg')] relative before:absolute before:content-[''] before:left-0 before:right-0 before:top-0 before:bottom-0 before:bg-slate-900/30">
             <div className="min-w-full px-8 md:px-12 lg:px-16 h-full overflow-hidden relative py-20">
               <div className="flex justify-center items-center h-full">
-                <div className="max-w-[70%] flex flex-col gap-y-4 justify-center">
+                <div className="max-w-full flex flex-col gap-y-4 justify-center">
                   <h1 className="text-3xl text-center font-semibold text-white">
                     {article.title}
                   </h1>
