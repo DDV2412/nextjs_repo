@@ -21,7 +21,7 @@ const ArticleCard = ({
       <Link aria-label="Brand Logo" href={href} className="flex flex-col gap-4">
         <figure className="min-w-full bg-indigo-50 overflow-hidden h-48 flex justify-center items-center">
           <Image
-            src={image ? image : '/images/default_thumbnail.svg'}
+            src={image ? image : '/images/default_thumbnail.webp'}
             alt={title}
             className="w-52"
             width={500}
