@@ -5,13 +5,13 @@ import React, {
   useEffect,
   useRef,
   useState,
-} from 'react';
-import { NextSeo } from 'next-seo';
-import { MyPage } from './../components/common/types';
-import CTA from '@/components/common/CTA';
-import ButtonPrimary from '@/components/button/ButtonPrimary';
-import classnames from 'classnames';
-import { useRouter } from 'next/router';
+} from "react";
+import { NextSeo } from "next-seo";
+import { MyPage } from "./../components/common/types";
+import CTA from "@/components/common/CTA";
+import ButtonPrimary from "@/components/button/ButtonPrimary";
+import classnames from "classnames";
+import { useRouter } from "next/router";
 
 const AdvancedSearch: MyPage = () => {
   const router = useRouter();
@@ -22,23 +22,23 @@ const AdvancedSearch: MyPage = () => {
   const [minVal, setMinVal] = useState<number>(min);
   const [maxVal, setMaxVal] = useState<number>(max);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchTermSelect, setSearchTermSelect] = useState('All Metadata');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTermSelect, setSearchTermSelect] = useState("All Metadata");
 
   const [advancedOptions, setAdvancedOptions] = useState([
-    { operation: 'AND', term: '', field: 'All Metadata' },
+    { operation: "AND", term: "", field: "All Metadata" },
   ]);
 
   const [advancedOptionOperations, setAdvancedOptionOperations] = useState([
-    'AND',
+    "AND",
   ]);
 
   const addAdvancedOption = () => {
     setAdvancedOptions((prevOptions) => [
       ...prevOptions,
-      { operation: 'AND', term: '', field: 'All Metadata' },
+      { operation: "AND", term: "", field: "All Metadata" },
     ]);
-    setAdvancedOptionOperations((prevOperations) => [...prevOperations, 'AND']);
+    setAdvancedOptionOperations((prevOperations) => [...prevOperations, "AND"]);
   };
 
   const removeAdvancedOption = (index: number) => {
@@ -61,7 +61,7 @@ const AdvancedSearch: MyPage = () => {
       term: string;
       field: string;
     },
-    value: string,
+    value: string
   ) => {
     setAdvancedOptions((prevOptions) => {
       const updatedOptions = [...prevOptions];
@@ -76,7 +76,7 @@ const AdvancedSearch: MyPage = () => {
 
   const getPercent = useCallback(
     (value: number) => Math.round(((value - min) / (max - min)) * 100),
-    [min, max],
+    [min, max]
   );
 
   useEffect(() => {
@@ -104,7 +104,7 @@ const AdvancedSearch: MyPage = () => {
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let searchString = '';
+    let searchString = "";
 
     if (searchTermSelect && searchTerm) {
       searchString += `("${searchTermSelect}":${searchTerm})`;
@@ -121,30 +121,30 @@ const AdvancedSearch: MyPage = () => {
           operation: string;
           term: string;
           field: string;
-        },
+        }
       ) => {
-        if (option.operation === 'AND') {
+        if (option.operation === "AND") {
           groups.AND.push(`("${option.field}":${option.term})`);
-        } else if (option.operation === 'OR') {
+        } else if (option.operation === "OR") {
           groups.OR.push(`("${option.field}":${option.term})`);
-        } else if (option.operation === 'NOT') {
+        } else if (option.operation === "NOT") {
           groups.NOT.push(`("${option.field}":${option.term})`);
         }
         return groups;
       },
-      { AND: [], OR: [], NOT: [] },
+      { AND: [], OR: [], NOT: [] }
     );
 
     if (groupedOptions.AND.length > 0) {
-      searchString += ` AND ${groupedOptions.AND.join(' AND ')}`;
+      searchString += ` AND ${groupedOptions.AND.join(" AND ")}`;
     }
 
     if (groupedOptions.OR.length > 0) {
-      searchString += ` OR ${groupedOptions.OR.join(' OR ')}`;
+      searchString += ` OR ${groupedOptions.OR.join(" OR ")}`;
     }
 
     if (groupedOptions.NOT.length > 0) {
-      searchString += ` NOT ${groupedOptions.NOT.join(' NOT ')}`;
+      searchString += ` NOT ${groupedOptions.NOT.join(" NOT ")}`;
     }
 
     const currentQuery = { ...router.query };
@@ -152,11 +152,11 @@ const AdvancedSearch: MyPage = () => {
     currentQuery.advancedQuery = searchString;
 
     if (rangeYear) {
-      currentQuery.rangeYear = minVal + '_' + maxVal;
+      currentQuery.rangeYear = minVal + "_" + maxVal;
     }
 
     router.push({
-      pathname: '/articles',
+      pathname: "/articles",
       query: currentQuery,
     });
   };
@@ -165,7 +165,7 @@ const AdvancedSearch: MyPage = () => {
     <>
       <NextSeo title="Advanced Search | IPMUGO Digital Library" />
       <section className="container bg-[url('/images/hero-bg.webp')] relative before:absolute before:content-[''] before:left-0 before:right-0 before:top-0 before:bottom-0 before:bg-slate-900/30">
-        <div className="min-w-full px-8 md:px-12 lg:px-16 h-full overflow-hidden relative py-20">
+        <div className="min-w-full px-4 sm:px-8 md:px-12 lg:px-16 h-full overflow-hidden relative py-20">
           <div className="max-w-[80%] flex flex-col gap-y-4 justify-center h-full">
             <h1 className="text-3xl font-semibold text-white">
               Advanced Search
@@ -190,7 +190,8 @@ const AdvancedSearch: MyPage = () => {
               name="SearchTermSelect"
               value={searchTermSelect}
               onChange={(e) => setSearchTermSelect(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg outline-none bg-slate-100/30 text-slate-900">
+              className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg outline-none bg-slate-100/30 text-slate-900"
+            >
               <option value="All Metadata">All Metadata</option>
               <option value="Full Text">Full Text</option>
               <option value="Document Title">Document Title</option>
@@ -207,14 +208,16 @@ const AdvancedSearch: MyPage = () => {
           {advancedOptions.map((option, index) => (
             <div
               key={index}
-              className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4"
+            >
               <select
                 name={`AdvancedOptionOperation${index}`}
                 value={option.operation}
                 onChange={(e) =>
-                  handleAdvancedOptionChange(index, 'operation', e.target.value)
+                  handleAdvancedOptionChange(index, "operation", e.target.value)
                 }
-                className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg outline-none bg-slate-100/30 text-slate-900">
+                className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg outline-none bg-slate-100/30 text-slate-900"
+              >
                 <option value="AND">AND</option>
                 <option value="OR">OR</option>
                 <option value="NOT">NOT</option>
@@ -226,7 +229,7 @@ const AdvancedSearch: MyPage = () => {
                   name={`AdvancedOptionTerm${index}`}
                   value={option.term}
                   onChange={(e) =>
-                    handleAdvancedOptionChange(index, 'term', e.target.value)
+                    handleAdvancedOptionChange(index, "term", e.target.value)
                   }
                   className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg outline-none bg-slate-100/30 text-slate-900"
                 />
@@ -237,9 +240,10 @@ const AdvancedSearch: MyPage = () => {
                   name={`AdvancedOptionSelect${index}`}
                   value={option.field}
                   onChange={(e) =>
-                    handleAdvancedOptionChange(index, 'field', e.target.value)
+                    handleAdvancedOptionChange(index, "field", e.target.value)
                   }
-                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg outline-none bg-slate-100/30 text-slate-900">
+                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg outline-none bg-slate-100/30 text-slate-900"
+                >
                   <option value="All Metadata">All Metadata</option>
                   <option value="Full Text">Full Text</option>
                   <option value="Document Title">Document Title</option>
@@ -257,13 +261,15 @@ const AdvancedSearch: MyPage = () => {
                   type="button"
                   aria-label="Advanced Remove"
                   onClick={() => removeAdvancedOption(index)}
-                  className="bg-rose-700 text-white p-3 rounded-lg">
+                  className="bg-rose-700 text-white p-3 rounded-lg"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
-                    fill="none">
+                    fill="none"
+                  >
                     <path
                       fillRule="evenodd"
                       clipRule="evenodd"
@@ -283,7 +289,8 @@ const AdvancedSearch: MyPage = () => {
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
-                fill="none">
+                fill="none"
+              >
                 <path
                   d="M13.5 16.875H16.875M16.875 16.875H20.25M16.875 16.875V13.5M16.875 16.875V20.25M6 10.5H8.25C9.49264 10.5 10.5 9.49264 10.5 8.25V6C10.5 4.75736 9.49264 3.75 8.25 3.75H6C4.75736 3.75 3.75 4.75736 3.75 6V8.25C3.75 9.49264 4.75736 10.5 6 10.5ZM6 20.25H8.25C9.49264 20.25 10.5 19.2426 10.5 18V15.75C10.5 14.5074 9.49264 13.5 8.25 13.5H6C4.75736 13.5 3.75 14.5074 3.75 15.75V18C3.75 19.2426 4.75736 20.25 6 20.25ZM15.75 10.5H18C19.2426 10.5 20.25 9.49264 20.25 8.25V6C20.25 4.75736 19.2426 3.75 18 3.75H15.75C14.5074 3.75 13.5 4.75736 13.5 6V8.25C13.5 9.49264 14.5074 10.5 15.75 10.5Z"
                   stroke="currentColor"
@@ -314,7 +321,8 @@ const AdvancedSearch: MyPage = () => {
                   width="100%"
                   height="100%"
                   viewBox="0 0 24 24"
-                  fill="none">
+                  fill="none"
+                >
                   <path
                     d="M10.5 1.875C10.5 1.25368 11.0037 0.75 11.625 0.75C12.2463 0.75 12.75 1.25368 12.75 1.875V10.0938C13.2674 10.2561 13.7708 10.4757 14.25 10.7527V3.375C14.25 2.75368 14.7537 2.25 15.375 2.25C15.9963 2.25 16.5 2.75368 16.5 3.375V14.3122C15.0821 14.5501 13.8891 15.451 13.2506 16.6852C14.4554 16.0866 15.8134 15.75 17.25 15.75C17.6642 15.75 18 15.4142 18 15V12.75L18 12.7336C18.0042 11.8771 18.3339 11.0181 18.9885 10.3635C19.4278 9.92417 20.1402 9.92417 20.5795 10.3635C21.0188 10.8028 21.0188 11.5152 20.5795 11.9545C20.361 12.173 20.2514 12.4567 20.25 12.7445L20.25 12.75L20.25 15.75H20.2454C20.1863 17.2558 19.5623 18.6877 18.4926 19.7574L16.7574 21.4926C15.6321 22.6179 14.106 23.25 12.5147 23.25H10.5C6.35786 23.25 3 19.8921 3 15.75V6.375C3 5.75368 3.50368 5.25 4.125 5.25C4.74632 5.25 5.25 5.75368 5.25 6.375V11.8939C5.71078 11.4421 6.2154 11.0617 6.75 10.7527V3.375C6.75 2.75368 7.25368 2.25 7.875 2.25C8.49632 2.25 9 2.75368 9 3.375V9.90069C9.49455 9.80023 9.99728 9.75 10.5 9.75V1.875Z"
                     fill="#fff"
@@ -333,8 +341,8 @@ const AdvancedSearch: MyPage = () => {
                     setMinVal(value);
                     event.target.value = value.toString();
                   }}
-                  className={classnames('thumb thumb--zindex-3', {
-                    'thumb--zindex-5': minVal > max - 100,
+                  className={classnames("thumb thumb--zindex-3", {
+                    "thumb--zindex-5": minVal > max - 100,
                   })}
                 />
                 <input
@@ -394,4 +402,4 @@ const AdvancedSearch: MyPage = () => {
 };
 
 export default AdvancedSearch;
-AdvancedSearch.Layout = 'Main';
+AdvancedSearch.Layout = "Main";

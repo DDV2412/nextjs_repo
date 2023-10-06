@@ -1,11 +1,10 @@
-import React, { ChangeEvent, useState, useEffect } from 'react';
-import ButtonPrimary from '@/components/button/ButtonPrimary';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import Image from 'next/image';
+import React, { ChangeEvent, useState, useEffect } from "react";
+import ButtonPrimary from "@/components/button/ButtonPrimary";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const HeroSection = () => {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const router = useRouter();
 
   const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -22,7 +21,7 @@ const HeroSection = () => {
     currentQuery.search = search;
 
     router.push({
-      pathname: '/articles',
+      pathname: "/articles",
       query: currentQuery,
     });
   };
@@ -31,14 +30,14 @@ const HeroSection = () => {
     const searchQuery = router.query.search as string;
 
     if (searchQuery === undefined) {
-      setSearch('');
+      setSearch("");
     }
     setSearch(searchQuery);
   }, [router.query]);
   return (
     <>
       <section className="container bg-[url('/images/hero-bg.webp')] relative before:absolute before:content-[''] before:left-0 before:right-0 before:top-0 before:bottom-0 before:bg-slate-900/30">
-        <div className="min-w-full px-8 md:px-12 lg:px-16 h-full overflow-hidden relative py-20">
+        <div className="min-w-full px-4 sm:px-8 md:px-12 lg:px-16 h-full overflow-hidden relative py-20">
           <div className="grid lg:grid-cols-2 h-full">
             <div className="max-w-full flex flex-col gap-y-4 justify-center">
               <h1 className="text-2xl md:text-3xl font-semibold text-white">
@@ -51,7 +50,8 @@ const HeroSection = () => {
               </p>
               <form
                 onSubmit={submitSearch}
-                className="flex justify-start items-center gap-2">
+                className="flex justify-start items-center gap-2"
+              >
                 <input
                   type="text"
                   value={search}
@@ -71,7 +71,8 @@ const HeroSection = () => {
                 <Link
                   aria-label="Advanced Search"
                   href="/advanced-search"
-                  className="text-white">
+                  className="text-white"
+                >
                   Advanced Search
                 </Link>
               </div>

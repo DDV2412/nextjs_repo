@@ -1,24 +1,26 @@
-import Link from 'next/link';
-import React, { useState } from 'react';
-import NextLink from '../link/NextLink';
-import ButtonLink from '../link/ButtonLink';
+import Link from "next/link";
+import React, { useState } from "react";
+import NextLink from "../link/NextLink";
+import ButtonLink from "../link/ButtonLink";
 
 const Navbar = () => {
   const [showNav, setShowNav] = useState(false);
 
   return (
-    <nav className="container py-4">
+    <nav className="container py-4 fixed z-[999] left-0 top-0 right-0 bg-white">
       <div className="flex justify-between items-center gap-6">
         <Link
           aria-label="Brand Logo"
           href="/"
-          className="text-indigo-700 hover:opacity-80 h-10">
+          className="text-indigo-700 hover:opacity-80 h-10 flex-0"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="100%"
             height="100%"
             viewBox="0 0 102 53"
-            fill="none">
+            fill="none"
+          >
             <g clipPath="url(#clip0_132_232)">
               <path
                 d="M45.8862 0.793481C21.1148 18.4302 21.8766 48.0343 0 52.2776C18.7291 31.8269 24.1602 0.58882 45.8862 0.793481Z"
@@ -43,9 +45,10 @@ const Navbar = () => {
         <ul
           className={`lg:flex flex-1 justify-start gap-2 ${
             showNav
-              ? 'flex flex-col items-start absolute left-0 right-0 top-16 md:top-20 bg-white z-10 py-8'
-              : 'hidden items-center'
-          }`}>
+              ? "flex flex-col items-start absolute left-0 right-0 top-16 md:top-20 bg-white z-10 py-8"
+              : "hidden items-center"
+          }`}
+        >
           <li>
             <NextLink href="/articles">Articles</NextLink>
           </li>
@@ -67,14 +70,15 @@ const Navbar = () => {
             </ButtonLink>
           </li>
         </ul>
-        <div className="flex justify-end items-center gap-6">
+        <div className="flex flex-0 justify-end items-center gap-6">
           <div className="hidden md:flex">
             <ButtonLink href="#">Log In</ButtonLink>
           </div>
           <button
             aria-label="Nav Toggle"
             onClick={() => setShowNav(!showNav)}
-            className="relative overflow-hidden w-8 h-8 flex lg:hidden justify-start group items-center transition-all duration-150">
+            className="relative overflow-hidden w-8 h-8 flex lg:hidden justify-start group items-center transition-all duration-150"
+          >
             <div className="absolute group-hover:w-full transition-all duration-150 w-full h-0.5 top-1/2 transform -translate-y-2 bg-slate-900 rounded-lg"></div>
             <div className="absolute group-hover:w-full transition-all duration-150 w-3/4 h-0.5 top-1/2 transform -translate-y-0 bg-slate-900 rounded-lg"></div>
             <div className="absolute group-hover:w-full transition-all duration-150 w-full h-0.5 top-1/2 transform translate-y-2 bg-slate-900 rounded-lg"></div>
