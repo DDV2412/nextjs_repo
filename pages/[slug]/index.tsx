@@ -155,7 +155,7 @@ const Detail: MyPage = () => {
         </div>
       ) : (
         <>
-          <section className="container bg-[url('/images/hero-bg.jpg')] relative before:absolute before:content-[''] before:left-0 before:right-0 before:top-0 before:bottom-0 before:bg-slate-900/30">
+          <section className="container bg-[url('/images/hero-bg.webp')] relative before:absolute before:content-[''] before:left-0 before:right-0 before:top-0 before:bottom-0 before:bg-slate-900/30">
             <div className="min-w-full px-8 md:px-12 lg:px-16 h-full overflow-hidden relative py-20">
               <div className="flex justify-center items-center h-full">
                 <div className="max-w-full flex flex-col gap-y-4 justify-center">
@@ -179,7 +179,7 @@ const Detail: MyPage = () => {
                                 target="_blank">
                                 <figure className="w-5 h-5 rounded-full overflow-hidden">
                                   <Image
-                                    src="/images/orcid_logo.png"
+                                    src="/images/orcid_logo.webp"
                                     alt={creator['ORCID']}
                                     className="w-full h-full object-cover"
                                     width={500}
