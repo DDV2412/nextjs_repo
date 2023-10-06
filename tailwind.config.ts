@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
@@ -9,22 +9,22 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        "sans" : ["GeneralSans", "sans-serif"]
-      }
+        sans: ['GeneralSans', 'sans-serif'],
+      },
     },
     container: {
       center: true,
       padding: '1rem',
 
       screens: {
-        sm: '600px',
-        md: '728px',
-        lg: '984px',
+        sm: '100%',
+        md: '100%',
+        lg: '100%',
         xl: '1240px',
         '2xl': '1370px',
       },
-    }
+    },
   },
   plugins: [require('tailwind-scrollbar')({ nocompatible: true })],
-}
-export default config
+};
+export default config;

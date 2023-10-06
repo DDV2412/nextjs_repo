@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { NextSeo } from "next-seo";
-import { MyPage } from "./../components/common/types";
-import Link from "next/link";
-import ButtonLink from "@/components/link/ButtonLink";
-import HeroSection from "@/components/common/Hero";
-import CTA from "@/components/common/CTA";
-import ArticleCard from "@/components/card/ArticleCard";
-import { Loading } from "@/components/common/Loading";
-import Image from "next/image";
+import React, { useEffect, useState } from 'react';
+import { NextSeo } from 'next-seo';
+import { MyPage } from './../components/common/types';
+import Link from 'next/link';
+import ButtonLink from '@/components/link/ButtonLink';
+import HeroSection from '@/components/common/Hero';
+import CTA from '@/components/common/CTA';
+import ArticleCard from '@/components/card/ArticleCard';
+import { Loading } from '@/components/common/Loading';
+import Image from 'next/image';
 
 const Home: MyPage = () => {
   const [articles, setArticles] = useState({
@@ -18,7 +18,7 @@ const Home: MyPage = () => {
   });
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetch("/api/featured")
+    fetch('/api/featured')
       .then((res) => res.json())
       .then((data) => {
         setLoading(false);
@@ -39,14 +39,13 @@ const Home: MyPage = () => {
           <>
             <section className="container">
               <div className="pt-16 pb-10">
-                <div className="flex justify-between items-center">
-                  <h2 className="text-2xl font-semibold">
+                <div className="flex flex-wrap justify-between items-center gap-6">
+                  <h2 className="text-xl md:text-2xl font-semibold">
                     Browse Trending Topics
                   </h2>
                   <Link
                     href="#"
-                    className="flex group justify-start items-center gap-2 text-sm font-medium transition-all duration-150"
-                  >
+                    className="flex group justify-start items-center gap-2 text-sm font-medium transition-all duration-150">
                     <span>View All Topics</span>
                     <div className="w-5 h-5 flex justify-center items-center group-hover:translate-x-3 transition-all duration-150">
                       <svg
@@ -54,8 +53,7 @@ const Home: MyPage = () => {
                         width="100%"
                         height="100%"
                         viewBox="0 0 24 24"
-                        fill="none"
-                      >
+                        fill="none">
                         <path
                           fillRule="evenodd"
                           clipRule="evenodd"
@@ -66,27 +64,26 @@ const Home: MyPage = () => {
                     </div>
                   </Link>
                 </div>
-                <div className="mt-10 flex justify-between items-center gap-4">
-                  {articles.aggrs.subjects.map(
+                <div className="mt-10 flex justify-between items-center gap-4 overflow-scroll">
+                  {articles?.aggrs.subjects.map(
                     (aggr: any, index: number) =>
                       index <= 6 &&
-                      aggr._id !== "" && (
+                      aggr._id !== '' && (
                         <Link
                           href={`/articles?search=${aggr._id}`}
                           key={index}
-                          className="bg-slate-900 text-white flex-1 hover:shadow-lg cursor-pointer hover:scale-105 transition-all duration-150 h-28 flex justify-center items-center text-lg font-medium text-center"
-                        >
+                          className="bg-slate-900 text-white flex-1 hover:shadow-lg cursor-pointer hover:scale-105 transition-all duration-150 h-28 flex justify-center items-center text-lg font-medium text-center">
                           {aggr._id}
                         </Link>
-                      )
+                      ),
                   )}
                 </div>
               </div>
             </section>
             <section className="container">
               <div className="pt-6 pb-10">
-                <div className="grid grid-cols-4 gap-5">
-                  <div className="min-h-[40rem] relative w-full overflow-hidden row-span-2 pt-10 px-6 bg-slate-900 flex flex-col gap-4">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
+                  <div className="relative w-full overflow-hidden lg:row-span-2 py-12 px-6 bg-[url('/images/banner.jpg')] flex flex-col gap-4">
                     <h2 className="text-2xl font-semibold text-white">
                       Featured Articles
                     </h2>
@@ -95,17 +92,8 @@ const Home: MyPage = () => {
                       various fields.
                     </p>
                     <ButtonLink href="/articles">View all featured</ButtonLink>
-                    <figure className="overflow-hidden absolute left-0 -right-16 -bottom-14">
-                      <Image
-                        src="/images/ilustration-box.svg"
-                        alt=""
-                        className="object-cover w-full"
-                        width={500}
-                        height={500}
-                      />
-                    </figure>
                   </div>
-                  {articles.articles.map((article: any, index: number) => (
+                  {articles?.articles.map((article: any, index: number) => (
                     <ArticleCard
                       key={index}
                       title={article.title}
@@ -416,4 +404,4 @@ const Home: MyPage = () => {
   );
 };
 export default Home;
-Home.Layout = "Main";
+Home.Layout = 'Main';

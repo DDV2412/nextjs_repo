@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { NextSeo } from "next-seo";
-import { MyPage } from "../components/common/types";
-import HeroSection from "@/components/common/Hero";
-import CTA from "@/components/common/CTA";
-import { Loading } from "@/components/common/Loading";
-import Image from "next/image";
+import React, { useEffect, useState } from 'react';
+import { NextSeo } from 'next-seo';
+import { MyPage } from '../components/common/types';
+import HeroSection from '@/components/common/Hero';
+import CTA from '@/components/common/CTA';
+import { Loading } from '@/components/common/Loading';
+import Image from 'next/image';
 
 const Journals: MyPage = () => {
   const [journals, setJournals] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/journals")
+    fetch('/api/journals')
       .then((res) => res.json())
       .then((data) => {
         setLoading(false);
@@ -31,12 +31,11 @@ const Journals: MyPage = () => {
               <Loading />
             </div>
           ) : (
-            <div className="grid grid-cols-3 gap-5">
-              {journals.map((journal: any) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {journals?.map((journal: any) => (
                 <div
                   key={journal._id}
-                  className="relative min-w-full min-h-full overflow-hidden rounded-lg"
-                >
+                  className="relative min-w-full min-h-full overflow-hidden rounded-lg">
                   <figure>
                     <Image
                       src={journal.thumbnail_image}
@@ -69,4 +68,4 @@ const Journals: MyPage = () => {
   );
 };
 export default Journals;
-Journals.Layout = "Main";
+Journals.Layout = 'Main';

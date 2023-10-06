@@ -4,17 +4,17 @@ import React, {
   useCallback,
   useRef,
   ChangeEvent,
-} from "react";
-import { NextSeo } from "next-seo";
-import { MyPage } from "../components/common/types";
-import HeroSection from "@/components/common/Hero";
-import CTA from "@/components/common/CTA";
-import classnames from "classnames";
-import ButtonPrimary from "@/components/button/ButtonPrimary";
-import ArticleCard from "@/components/card/ArticleCard";
-import { Pagination } from "@/components/link/Pagination";
-import { useRouter } from "next/router";
-import { Loading } from "@/components/common/Loading";
+} from 'react';
+import { NextSeo } from 'next-seo';
+import { MyPage } from '../components/common/types';
+import HeroSection from '@/components/common/Hero';
+import CTA from '@/components/common/CTA';
+import classnames from 'classnames';
+import ButtonPrimary from '@/components/button/ButtonPrimary';
+import ArticleCard from '@/components/card/ArticleCard';
+import { Pagination } from '@/components/link/Pagination';
+import { useRouter } from 'next/router';
+import { Loading } from '@/components/common/Loading';
 
 const Articles: MyPage = () => {
   const currentYear = new Date().getFullYear();
@@ -36,26 +36,26 @@ const Articles: MyPage = () => {
   const [minVal, setMinVal] = useState<number>(min);
   const [maxVal, setMaxVal] = useState<number>(max);
   const [filterCondition, setFilterCondition] = useState(false);
-  const [switchYear, setSwitchYear] = useState("single");
+  const [switchYear, setSwitchYear] = useState('single');
 
   const minValRef = useRef<HTMLInputElement>(null);
   const maxValRef = useRef<HTMLInputElement>(null);
   const range = useRef<HTMLDivElement>(null);
 
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const [searchAuthor, setSearchAuthor] = useState("");
-  const [sort, setSort] = useState("publish_at:desc");
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchAuthor, setSearchAuthor] = useState('');
+  const [sort, setSort] = useState('publish_at:desc');
   const [perPage, setPerPage] = useState(15);
-  const [authorFilter, setAuthorFilter] = useState("");
-  const [publisherFilter, setPublisherFilter] = useState("");
-  const [topicFilter, setTopicFilter] = useState("");
-  const [singleYearFilter, setSingleYearFilter] = useState("");
-  const [searchWithinQuery, setSearchWithinQuery] = useState("");
+  const [authorFilter, setAuthorFilter] = useState('');
+  const [publisherFilter, setPublisherFilter] = useState('');
+  const [topicFilter, setTopicFilter] = useState('');
+  const [singleYearFilter, setSingleYearFilter] = useState('');
+  const [searchWithinQuery, setSearchWithinQuery] = useState('');
   const query = router.query;
 
   const swithHandler = (value: string): void => {
-    if (value === "range") {
-      setSingleYearFilter("");
+    if (value === 'range') {
+      setSingleYearFilter('');
     }
     setSwitchYear(value);
   };
@@ -64,28 +64,28 @@ const Articles: MyPage = () => {
     const sortBy = e.target.value;
     setSort(sortBy);
 
-    let sortField = "";
-    let sortOrder = "";
+    let sortField = '';
+    let sortOrder = '';
 
-    if (sortBy === "title:desc") {
-      sortField = "title";
-      sortOrder = "desc";
-    } else if (sortBy === "relevance") {
-      sortField = "relevance";
-    } else if (sortBy === "title:asc") {
-      sortField = "title";
-      sortOrder = "asc";
-    } else if (sortBy === "publish_at:asc") {
-      sortField = "publish_at";
-      sortOrder = "asc";
-    } else if (sortBy === "publish_at:desc") {
-      sortField = "publish_at";
-      sortOrder = "desc";
+    if (sortBy === 'title:desc') {
+      sortField = 'title';
+      sortOrder = 'desc';
+    } else if (sortBy === 'relevance') {
+      sortField = 'relevance';
+    } else if (sortBy === 'title:asc') {
+      sortField = 'title';
+      sortOrder = 'asc';
+    } else if (sortBy === 'publish_at:asc') {
+      sortField = 'publish_at';
+      sortOrder = 'asc';
+    } else if (sortBy === 'publish_at:desc') {
+      sortField = 'publish_at';
+      sortOrder = 'desc';
     }
 
     const currentQuery = { ...query };
 
-    if (sortField === "relevance") {
+    if (sortField === 'relevance') {
       currentQuery.sort_field = sortField;
     } else {
       currentQuery.sort_field = sortField;
@@ -113,7 +113,7 @@ const Articles: MyPage = () => {
 
   const creatorFilterhandler = (
     e: React.ChangeEvent<HTMLInputElement>,
-    value: string
+    value: string,
   ) => {
     setAuthorFilter(value);
 
@@ -129,7 +129,7 @@ const Articles: MyPage = () => {
 
   const publisherFilterhandler = (
     e: React.ChangeEvent<HTMLInputElement>,
-    value: string
+    value: string,
   ) => {
     setPublisherFilter(value);
 
@@ -145,7 +145,7 @@ const Articles: MyPage = () => {
 
   const topicFilterhandler = (
     e: React.ChangeEvent<HTMLInputElement>,
-    value: string
+    value: string,
   ) => {
     setTopicFilter(value);
 
@@ -178,10 +178,10 @@ const Articles: MyPage = () => {
   const rangeYearhandler = () => {
     const currentQuery = { ...query };
     if (currentQuery.singleYear) {
-      currentQuery.rangeYear = minVal + "_" + maxVal;
+      currentQuery.rangeYear = minVal + '_' + maxVal;
       delete currentQuery.singleYear;
     } else {
-      currentQuery.rangeYear = minVal + "_" + maxVal;
+      currentQuery.rangeYear = minVal + '_' + maxVal;
     }
     setFilterCondition(true);
 
@@ -193,14 +193,14 @@ const Articles: MyPage = () => {
 
   const getPercent = useCallback(
     (value: number) => Math.round(((value - min) / (max - min)) * 100),
-    [min, max]
+    [min, max],
   );
 
   const searchWithHandler = (e: React.FormEvent) => {
     e.preventDefault();
     const currentQuery = { ...query };
 
-    if (currentQuery["search"]) {
+    if (currentQuery['search']) {
       currentQuery[`searchWithin`] = searchWithinQuery;
     } else {
       currentQuery[`search`] = searchWithinQuery;
@@ -217,13 +217,13 @@ const Articles: MyPage = () => {
 
     const resetQuery: any = {};
 
-    setSearchKeyword("");
-    setSearchAuthor("");
-    setAuthorFilter("");
-    setPublisherFilter("");
-    setTopicFilter("");
-    setSingleYearFilter("");
-    setSearchWithinQuery("");
+    setSearchKeyword('');
+    setSearchAuthor('');
+    setAuthorFilter('');
+    setPublisherFilter('');
+    setTopicFilter('');
+    setSingleYearFilter('');
+    setSearchWithinQuery('');
     setFilterCondition(false);
 
     if (currentQuery.sort_field) {
@@ -312,30 +312,30 @@ const Articles: MyPage = () => {
     };
 
     if (!authorFilter) {
-      setAuthorFilter(author_filter || "");
+      setAuthorFilter(author_filter || '');
     }
 
     if (!publisherFilter) {
-      setPublisherFilter(journal_filter || "");
+      setPublisherFilter(journal_filter || '');
     }
 
     if (!singleYearFilter) {
-      setSingleYearFilter(singleYear || "");
+      setSingleYearFilter(singleYear || '');
     }
 
     if (!searchWithinQuery) {
-      setSearchWithinQuery(searchWithin || "");
+      setSearchWithinQuery(searchWithin || '');
     }
 
     if (!topicFilter) {
-      setTopicFilter(subject_filter || "");
+      setTopicFilter(subject_filter || '');
     }
 
     if (!minVal && !maxVal && rangeYear) {
-      const [min, max] = rangeYear.split("_").map(Number);
+      const [min, max] = rangeYear.split('_').map(Number);
       setMinVal(min);
       setMaxVal(max);
-      setSwitchYear("range");
+      setSwitchYear('range');
     }
 
     setFilterCondition(
@@ -344,8 +344,9 @@ const Articles: MyPage = () => {
         !!rangeYear ||
         !!search ||
         !!searchWithin ||
-        !!advancedQuery
+        !!advancedQuery,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -367,8 +368,8 @@ const Articles: MyPage = () => {
     const queryParams = {
       page: query.page || (1 as number),
       per_page: query.per_page || (15 as number),
-      sort_field: query.sort_field || ("publish_at" as string),
-      sort_order: query.sort_order || ("desc" as string),
+      sort_field: query.sort_field || ('publish_at' as string),
+      sort_order: query.sort_order || ('desc' as string),
       search: query.search || (undefined as string | undefined),
       author_filter: query.author_filter || (undefined as string | undefined),
       journal_filter: query.journal_filter || (undefined as string | undefined),
@@ -380,19 +381,19 @@ const Articles: MyPage = () => {
     };
 
     const nonEmptyQueryParams = Object.fromEntries(
-      Object.entries(queryParams).filter(([key, value]) => value !== undefined)
+      Object.entries(queryParams).filter(([key, value]) => value !== undefined),
     );
 
     const { rangeYear, ...restQueryParams } = nonEmptyQueryParams;
 
     const urlSearchParams = new URLSearchParams(
-      restQueryParams as Record<string, string>
+      restQueryParams as Record<string, string>,
     );
 
     let apiUrl = `api/articles?${urlSearchParams.toString()}`;
 
     if (rangeYear) {
-      const [minVal, maxVal] = rangeYear.toString().split("_");
+      const [minVal, maxVal] = rangeYear.toString().split('_');
       apiUrl += `&minYear=${minVal}&maxYear=${maxVal}`;
     }
 
@@ -418,7 +419,7 @@ const Articles: MyPage = () => {
       ) : (
         <section className="container">
           <div className="pt-6 pb-10">
-            <div className="grid grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
               <div className="relative h-full w-full overflow-hidden row-span-2 flex flex-col gap-4">
                 <div className="top-0 sticky">
                   <form onSubmit={searchWithHandler} className="relative">
@@ -436,8 +437,7 @@ const Articles: MyPage = () => {
                         width="100%"
                         height="100%"
                         viewBox="0 0 24 24"
-                        fill="none"
-                      >
+                        fill="none">
                         <path
                           fillRule="evenodd"
                           clipRule="evenodd"
@@ -453,33 +453,30 @@ const Articles: MyPage = () => {
                       <div className="h-12 w-40 bg-slate-200 rounded-full relative flex justify-center items-center overflow-hidden transition-all duration-150">
                         <div
                           className={`absolute top-0 bottom-0  bg-indigo-700 w-[50%] rounded-full transition-all duration-150 ${
-                            switchYear === "single" ? "left-0" : "right-0"
-                          }`}
-                        ></div>
+                            switchYear === 'single' ? 'left-0' : 'right-0'
+                          }`}></div>
                         <div
-                          onClick={(e) => swithHandler("single")}
+                          onClick={(e) => swithHandler('single')}
                           className={`flex-1 h-full w-full flex items-center justify-center font-medium cursor-pointer transition-all duration-150 rounded-full relative z-0 ${
-                            switchYear === "single"
-                              ? "text-white"
-                              : "text-slate-900"
-                          }`}
-                        >
+                            switchYear === 'single'
+                              ? 'text-white'
+                              : 'text-slate-900'
+                          }`}>
                           Single
                         </div>
                         <div
-                          onClick={() => swithHandler("range")}
+                          onClick={() => swithHandler('range')}
                           className={`flex-1 h-full w-full flex items-center justify-center font-medium cursor-pointer transition-all duration-150 rounded-full relative z-0 ${
-                            switchYear === "range"
-                              ? "text-white"
-                              : "text-slate-900"
-                          }`}
-                        >
+                            switchYear === 'range'
+                              ? 'text-white'
+                              : 'text-slate-900'
+                          }`}>
                           Range
                         </div>
                       </div>
                       <p className="mt-4 font-medium">Year</p>
 
-                      {switchYear === "range" ? (
+                      {switchYear === 'range' ? (
                         <>
                           <div className="relative mt-4 w-full flex justify-between">
                             <input
@@ -489,17 +486,17 @@ const Articles: MyPage = () => {
                               value={minVal}
                               ref={minValRef}
                               onChange={(
-                                event: ChangeEvent<HTMLInputElement>
+                                event: ChangeEvent<HTMLInputElement>,
                               ) => {
                                 const value = Math.min(
                                   +event.target.value,
-                                  maxVal - 1
+                                  maxVal - 1,
                                 );
                                 setMinVal(value);
                                 event.target.value = value.toString();
                               }}
-                              className={classnames("thumb thumb--zindex-3", {
-                                "thumb--zindex-5": minVal > max - 100,
+                              className={classnames('thumb thumb--zindex-3', {
+                                'thumb--zindex-5': minVal > max - 100,
                               })}
                             />
                             <input
@@ -509,11 +506,11 @@ const Articles: MyPage = () => {
                               value={maxVal}
                               ref={maxValRef}
                               onChange={(
-                                event: ChangeEvent<HTMLInputElement>
+                                event: ChangeEvent<HTMLInputElement>,
                               ) => {
                                 const value = Math.max(
                                   +event.target.value,
-                                  minVal + 1
+                                  minVal + 1,
                                 );
                                 setMaxVal(value);
                                 event.target.value = value.toString();
@@ -552,13 +549,12 @@ const Articles: MyPage = () => {
                             <div className="relative mt-4 w-full flex justify-between">
                               <ButtonPrimary
                                 onClick={rangeYearhandler}
-                                type="button"
-                              >
+                                type="button">
                                 Filter
                               </ButtonPrimary>
                             </div>
                           ) : (
-                            ""
+                            ''
                           )}
                         </>
                       ) : (
@@ -575,17 +571,16 @@ const Articles: MyPage = () => {
                             />
                           </div>
 
-                          {singleYearFilter !== "" ? (
+                          {singleYearFilter !== '' ? (
                             <div className="relative mt-4 w-full flex justify-between">
                               <ButtonPrimary
                                 onClick={singleYearhandler}
-                                type="button"
-                              >
+                                type="button">
                                 Filter
                               </ButtonPrimary>
                             </div>
                           ) : (
-                            ""
+                            ''
                           )}
                         </>
                       )}
@@ -600,17 +595,16 @@ const Articles: MyPage = () => {
                         className="mt-4 w-full px-4 py-3 border-2 border-slate-200 rounded-lg outline-none bg-slate-100/30 text-slate-900"
                       />
                       <div className="mt-4 flex flex-col gap-y-1 max-h-[300px] overflow-y-scroll scroll-smooth scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-400 scrollbar-thumb-rounded-lg scrollbar-w-1">
-                        {articles.aggrs.creators
+                        {articles?.aggrs.creators
                           .filter((subject: any) =>
                             subject._id
                               .toLowerCase()
-                              .includes(searchAuthor.toLowerCase())
+                              .includes(searchAuthor.toLowerCase()),
                           )
                           .map((creator: any, index: number) => (
                             <div
                               key={index}
-                              className="flex justify-start items-center gap-4 relative"
-                            >
+                              className="flex justify-start items-center gap-4 relative">
                               <input
                                 type="radio"
                                 value={authorFilter}
@@ -628,8 +622,7 @@ const Articles: MyPage = () => {
                                 width="100%"
                                 height="100%"
                                 viewBox="0 0 24 24"
-                                fill="none"
-                              >
+                                fill="none">
                                 <path
                                   d="M10.5 1.875C10.5 1.25368 11.0037 0.75 11.625 0.75C12.2463 0.75 12.75 1.25368 12.75 1.875V10.0938C13.2674 10.2561 13.7708 10.4757 14.25 10.7527V3.375C14.25 2.75368 14.7537 2.25 15.375 2.25C15.9963 2.25 16.5 2.75368 16.5 3.375V14.3122C15.0821 14.5501 13.8891 15.451 13.2506 16.6852C14.4554 16.0866 15.8134 15.75 17.25 15.75C17.6642 15.75 18 15.4142 18 15V12.75L18 12.7336C18.0042 11.8771 18.3339 11.0181 18.9885 10.3635C19.4278 9.92417 20.1402 9.92417 20.5795 10.3635C21.0188 10.8028 21.0188 11.5152 20.5795 11.9545C20.361 12.173 20.2514 12.4567 20.25 12.7445L20.25 12.75L20.25 15.75H20.2454C20.1863 17.2558 19.5623 18.6877 18.4926 19.7574L16.7574 21.4926C15.6321 22.6179 14.106 23.25 12.5147 23.25H10.5C6.35786 23.25 3 19.8921 3 15.75V6.375C3 5.75368 3.50368 5.25 4.125 5.25C4.74632 5.25 5.25 5.75368 5.25 6.375V11.8939C5.71078 11.4421 6.2154 11.0617 6.75 10.7527V3.375C6.75 2.75368 7.25368 2.25 7.875 2.25C8.49632 2.25 9 2.75368 9 3.375V9.90069C9.49455 9.80023 9.99728 9.75 10.5 9.75V1.875Z"
                                   fill="#fff"
@@ -642,12 +635,11 @@ const Articles: MyPage = () => {
                     <div>
                       <p className="font-medium">Publication Title</p>
                       <div className="mt-4 flex flex-col gap-y-1 max-h-[300px] overflow-y-scroll scroll-smooth scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-400 scrollbar-thumb-rounded-lg scrollbar-w-1">
-                        {articles.aggrs.journal.map(
+                        {articles?.aggrs.journal.map(
                           (journal: any, index: number) => (
                             <div
                               key={index}
-                              className="flex justify-start items-center gap-4 relative"
-                            >
+                              className="flex justify-start items-center gap-4 relative">
                               <input
                                 type="radio"
                                 value={publisherFilter}
@@ -665,15 +657,14 @@ const Articles: MyPage = () => {
                                 width="100%"
                                 height="100%"
                                 viewBox="0 0 24 24"
-                                fill="none"
-                              >
+                                fill="none">
                                 <path
                                   d="M10.5 1.875C10.5 1.25368 11.0037 0.75 11.625 0.75C12.2463 0.75 12.75 1.25368 12.75 1.875V10.0938C13.2674 10.2561 13.7708 10.4757 14.25 10.7527V3.375C14.25 2.75368 14.7537 2.25 15.375 2.25C15.9963 2.25 16.5 2.75368 16.5 3.375V14.3122C15.0821 14.5501 13.8891 15.451 13.2506 16.6852C14.4554 16.0866 15.8134 15.75 17.25 15.75C17.6642 15.75 18 15.4142 18 15V12.75L18 12.7336C18.0042 11.8771 18.3339 11.0181 18.9885 10.3635C19.4278 9.92417 20.1402 9.92417 20.5795 10.3635C21.0188 10.8028 21.0188 11.5152 20.5795 11.9545C20.361 12.173 20.2514 12.4567 20.25 12.7445L20.25 12.75L20.25 15.75H20.2454C20.1863 17.2558 19.5623 18.6877 18.4926 19.7574L16.7574 21.4926C15.6321 22.6179 14.106 23.25 12.5147 23.25H10.5C6.35786 23.25 3 19.8921 3 15.75V6.375C3 5.75368 3.50368 5.25 4.125 5.25C4.74632 5.25 5.25 5.75368 5.25 6.375V11.8939C5.71078 11.4421 6.2154 11.0617 6.75 10.7527V3.375C6.75 2.75368 7.25368 2.25 7.875 2.25C8.49632 2.25 9 2.75368 9 3.375V9.90069C9.49455 9.80023 9.99728 9.75 10.5 9.75V1.875Z"
                                   fill="#fff"
                                 />
                               </svg>
                             </div>
-                          )
+                          ),
                         )}
                       </div>
                     </div>
@@ -687,18 +678,17 @@ const Articles: MyPage = () => {
                         className="mt-4 w-full px-4 py-3 border-2 border-slate-200 rounded-lg outline-none bg-slate-100/30 text-slate-900"
                       />
                       <div className="mt-4 flex flex-col gap-y-1 max-h-[300px] overflow-y-scroll scroll-smooth scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-400 scrollbar-thumb-rounded-lg scrollbar-w-1">
-                        {articles.aggrs.subjects
+                        {articles?.aggrs.subjects
                           .filter((subject: any) =>
                             subject._id
                               .toLowerCase()
-                              .includes(searchKeyword.toLowerCase())
+                              .includes(searchKeyword.toLowerCase()),
                           )
                           .map((subject: any, index: number) =>
-                            subject._id !== "" ? (
+                            subject._id !== '' ? (
                               <div
                                 key={index}
-                                className="flex justify-start items-center gap-4 relative"
-                              >
+                                className="flex justify-start items-center gap-4 relative">
                                 <input
                                   type="radio"
                                   value={topicFilter}
@@ -716,8 +706,7 @@ const Articles: MyPage = () => {
                                   width="100%"
                                   height="100%"
                                   viewBox="0 0 24 24"
-                                  fill="none"
-                                >
+                                  fill="none">
                                   <path
                                     d="M10.5 1.875C10.5 1.25368 11.0037 0.75 11.625 0.75C12.2463 0.75 12.75 1.25368 12.75 1.875V10.0938C13.2674 10.2561 13.7708 10.4757 14.25 10.7527V3.375C14.25 2.75368 14.7537 2.25 15.375 2.25C15.9963 2.25 16.5 2.75368 16.5 3.375V14.3122C15.0821 14.5501 13.8891 15.451 13.2506 16.6852C14.4554 16.0866 15.8134 15.75 17.25 15.75C17.6642 15.75 18 15.4142 18 15V12.75L18 12.7336C18.0042 11.8771 18.3339 11.0181 18.9885 10.3635C19.4278 9.92417 20.1402 9.92417 20.5795 10.3635C21.0188 10.8028 21.0188 11.5152 20.5795 11.9545C20.361 12.173 20.2514 12.4567 20.25 12.7445L20.25 12.75L20.25 15.75H20.2454C20.1863 17.2558 19.5623 18.6877 18.4926 19.7574L16.7574 21.4926C15.6321 22.6179 14.106 23.25 12.5147 23.25H10.5C6.35786 23.25 3 19.8921 3 15.75V6.375C3 5.75368 3.50368 5.25 4.125 5.25C4.74632 5.25 5.25 5.75368 5.25 6.375V11.8939C5.71078 11.4421 6.2154 11.0617 6.75 10.7527V3.375C6.75 2.75368 7.25368 2.25 7.875 2.25C8.49632 2.25 9 2.75368 9 3.375V9.90069C9.49455 9.80023 9.99728 9.75 10.5 9.75V1.875Z"
                                     fill="#fff"
@@ -725,32 +714,31 @@ const Articles: MyPage = () => {
                                 </svg>
                               </div>
                             ) : (
-                              ""
-                            )
+                              ''
+                            ),
                           )}
                       </div>
                     </div>
                   </form>
                 </div>
               </div>
-              <div className="col-span-3">
-                <div className="flex justify-between mb-5">
+              <div className="md:col-span-2 lg:col-span-3">
+                <div className="flex flex-wrap justify-between mb-5">
                   <div className="text-lg">
-                    Showing{" "}
+                    Showing{' '}
                     <span className="font-medium">
-                      {articles.current_page | 0}-{articles.total_pages | 0} of{" "}
-                      {articles.total | 0}
-                    </span>{" "}
+                      {articles?.current_page | 0}-{articles?.total_pages | 0}{' '}
+                      of {articles?.total | 0}
+                    </span>{' '}
                     results
                   </div>
                   <div className="flex justify-end gap-3 items-center">
                     <div className="text-sm">
-                      Sort By{" "}
+                      Sort By{' '}
                       <select
                         value={sort}
                         onChange={handleSort}
-                        className="outline-none bg-slate-50 pl-2 py-2 rounded-lg"
-                      >
+                        className="outline-none bg-slate-50 pl-2 py-2 rounded-lg">
                         <option value="relevance">Relevance </option>
                         <option value="publish_at:desc">Newest</option>
                         <option value="publish_at:asc">Oldest</option>
@@ -764,8 +752,7 @@ const Articles: MyPage = () => {
                       <select
                         value={perPage}
                         onChange={handlePageShow}
-                        className="outline-none bg-slate-50 pl-2 py-2 rounded-lg"
-                      >
+                        className="outline-none bg-slate-50 pl-2 py-2 rounded-lg">
                         <option value={15}>15</option>
                         <option value={25}>25</option>
                         <option value={50}>50</option>
@@ -793,14 +780,14 @@ const Articles: MyPage = () => {
                       Filter
                     </div>
                     {[
-                      "search",
-                      "author_filter",
-                      "journal_filter",
-                      "subject_filter",
-                      "singleYear",
-                      "rangeYear",
-                      "searchWithin",
-                      "advancedQuery",
+                      'search',
+                      'author_filter',
+                      'journal_filter',
+                      'subject_filter',
+                      'singleYear',
+                      'rangeYear',
+                      'searchWithin',
+                      'advancedQuery',
                     ].map((filterKey, index) => (
                       <>
                         {query[filterKey] && (
@@ -809,15 +796,13 @@ const Articles: MyPage = () => {
                             <button
                               key={index}
                               onClick={(e) => deleteQuery(filterKey)}
-                              className="p-0.5 absolute -top-2 -right-2 bg-white rounded-lg shadow-inner"
-                            >
+                              className="p-0.5 absolute -top-2 -right-2 bg-white rounded-lg shadow-inner">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="20"
                                 height="20"
                                 viewBox="0 0 20 20"
-                                fill="none"
-                              >
+                                fill="none">
                                 <path
                                   d="M6.28033 5.21967C5.98744 4.92678 5.51256 4.92678 5.21967 5.21967C4.92678 5.51256 4.92678 5.98744 5.21967 6.28033L8.93934 10L5.21967 13.7197C4.92678 14.0126 4.92678 14.4874 5.21967 14.7803C5.51256 15.0732 5.98744 15.0732 6.28033 14.7803L10 11.0607L13.7197 14.7803C14.0126 15.0732 14.4874 15.0732 14.7803 14.7803C15.0732 14.4874 15.0732 14.0126 14.7803 13.7197L11.0607 10L14.7803 6.28033C15.0732 5.98744 15.0732 5.51256 14.7803 5.21967C14.4874 4.92678 14.0126 4.92678 13.7197 5.21967L10 8.93934L6.28033 5.21967Z"
                                   fill="#0F172A"
@@ -834,7 +819,7 @@ const Articles: MyPage = () => {
                 )}
 
                 <div className="mt-8 grid grid-cols-3 gap-5">
-                  {articles.articles.map((article: any, index: number) => (
+                  {articles?.articles.map((article: any, index: number) => (
                     <ArticleCard
                       key={index}
                       title={article.title}
@@ -847,8 +832,8 @@ const Articles: MyPage = () => {
                 </div>
                 <div className="mt-10 flex justify-end">
                   <Pagination
-                    currentPage={articles.current_page}
-                    totalPages={articles.total_pages}
+                    currentPage={articles?.current_page}
+                    totalPages={articles?.total_pages}
                     perPage={perPage}
                   />
                 </div>
@@ -863,4 +848,4 @@ const Articles: MyPage = () => {
   );
 };
 export default Articles;
-Articles.Layout = "Main";
+Articles.Layout = 'Main';

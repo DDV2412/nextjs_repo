@@ -1,11 +1,11 @@
-import React, { ChangeEvent, useState, useEffect } from "react";
-import ButtonPrimary from "@/components/button/ButtonPrimary";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import Image from "next/image";
+import React, { ChangeEvent, useState, useEffect } from 'react';
+import ButtonPrimary from '@/components/button/ButtonPrimary';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const HeroSection = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const router = useRouter();
 
   const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -22,7 +22,7 @@ const HeroSection = () => {
     currentQuery.search = search;
 
     router.push({
-      pathname: "/articles",
+      pathname: '/articles',
       query: currentQuery,
     });
   };
@@ -31,28 +31,27 @@ const HeroSection = () => {
     const searchQuery = router.query.search as string;
 
     if (searchQuery === undefined) {
-      setSearch("");
+      setSearch('');
     }
     setSearch(searchQuery);
   }, [router.query]);
   return (
     <>
-      <section className="container">
-        <div className="min-w-full bg-slate-900 pl-16 h-[28rem] overflow-hidden">
-          <div className="grid grid-cols-2 h-full">
-            <div className="max-w-[80%] flex flex-col gap-y-4 justify-center">
-              <h1 className="text-3xl font-semibold text-white">
+      <section className="container bg-[url('/images/hero-bg.jpg')] relative before:absolute before:content-[''] before:left-0 before:right-0 before:top-0 before:bottom-0 before:bg-slate-900/30">
+        <div className="min-w-full px-8 md:px-12 lg:px-16 h-full overflow-hidden relative py-20">
+          <div className="grid lg:grid-cols-2 h-full">
+            <div className="max-w-full flex flex-col gap-y-4 justify-center">
+              <h1 className="text-2xl md:text-3xl font-semibold text-white">
                 Explore the world`s best research.
               </h1>
-              <p className="text-lg text-white font-medium">
+              <p className="text-base lg:text-lg text-white font-medium">
                 Access the latest knowledge in applied science, electrical
                 engineering, computer science and information technology,
                 education, and health.
               </p>
               <form
                 onSubmit={submitSearch}
-                className="flex justify-start items-center gap-2"
-              >
+                className="flex justify-start items-center gap-2">
                 <input
                   type="text"
                   value={search}
@@ -74,15 +73,6 @@ const HeroSection = () => {
                 </Link>
               </div>
             </div>
-            <figure className="w-full h-full relative">
-              <Image
-                src="/images/Hero-Background.webp"
-                alt=""
-                className="w-full h-full object-cover absolute top-0 -right-20 scale-150"
-                width={500}
-                height={500}
-              />
-            </figure>
           </div>
         </div>
       </section>
