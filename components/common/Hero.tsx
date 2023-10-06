@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState, useEffect } from "react";
 import ButtonPrimary from "@/components/button/ButtonPrimary";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 
 const HeroSection = () => {
   const [search, setSearch] = useState("");
@@ -41,7 +42,7 @@ const HeroSection = () => {
           <div className="grid grid-cols-2 h-full">
             <div className="max-w-[80%] flex flex-col gap-y-4 justify-center">
               <h1 className="text-3xl font-semibold text-white">
-                Explore the world's best research.
+                Explore the world`s best research.
               </h1>
               <p className="text-lg text-white font-medium">
                 Access the latest knowledge in applied science, electrical
@@ -68,16 +69,18 @@ const HeroSection = () => {
                   <div className="w-[40%] absolute top-[50%] left-0 -translate-y-[50%] h-[1px] bg-slate-600"></div>
                   <div className="w-[40%] absolute top-[50%] right-0 -translate-y-[50%] h-[1px] bg-slate-600"></div>
                 </div>
-                <Link href="/advanced-search" replace className="text-white">
+                <Link href="/advanced-search" className="text-white">
                   Advanced Search
                 </Link>
               </div>
             </div>
             <figure className="w-full h-full relative">
-              <img
+              <Image
                 src="/images/Hero-Background.webp"
                 alt=""
                 className="w-full h-full object-cover absolute top-0 -right-20 scale-150"
+                width={500}
+                height={500}
               />
             </figure>
           </div>

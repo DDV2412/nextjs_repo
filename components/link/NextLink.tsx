@@ -8,7 +8,7 @@ interface NextLinkProps {
 
 const NextLink = ({ href, children }: NextLinkProps) => {
   return (
-    <Link href={href} replace>
+    <Link href={href}>
       <motion.span
         initial={{ y: 0 }}
         whileHover={{

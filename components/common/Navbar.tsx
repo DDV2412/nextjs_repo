@@ -7,11 +7,7 @@ const Navbar = () => {
   return (
     <nav className="container py-4">
       <div className="flex justify-between items-center gap-6">
-        <Link
-          href="/"
-          replace
-          className="text-indigo-700 hover:opacity-80 h-10"
-        >
+        <Link href="/" className="text-indigo-700 hover:opacity-80 h-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="100%"

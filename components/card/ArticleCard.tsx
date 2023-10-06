@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 interface NextLinkProps {
   href: string;
@@ -17,12 +18,14 @@ const ArticleCard = ({
 }: NextLinkProps) => {
   return (
     <article className="h-full w-full">
-      <Link href={href} replace className="flex flex-col gap-4">
+      <Link href={href} className="flex flex-col gap-4">
         <figure className="min-w-full bg-indigo-50 overflow-hidden h-48 flex justify-center items-center">
-          <img
+          <Image
             src={image ? image : "/images/default_thumbnail.svg"}
             alt={title}
             className="w-52"
+            width={500}
+            height={500}
           />
         </figure>
         <div className="flex flex-col gap-2">

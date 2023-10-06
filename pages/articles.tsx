@@ -11,20 +11,27 @@ import HeroSection from "@/components/common/Hero";
 import CTA from "@/components/common/CTA";
 import classnames from "classnames";
 import ButtonPrimary from "@/components/button/ButtonPrimary";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import ArticleCard from "@/components/card/ArticleCard";
 import { Pagination } from "@/components/link/Pagination";
 import { useRouter } from "next/router";
 import { Loading } from "@/components/common/Loading";
 
-const Articles: MyPage = ({
-  articles,
-  loading,
-  error,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Articles: MyPage = () => {
   const currentYear = new Date().getFullYear();
   const min = 1990;
   const router = useRouter();
+  const [articles, setArticles] = useState({
+    articles: [],
+    aggrs: {
+      subjects: [],
+      journal: [],
+      creators: [],
+    },
+    total: 0,
+    current_page: 1,
+    total_pages: 1,
+  });
+  const [loading, setLoading] = useState(true);
   const max = currentYear;
   const [minVal, setMinVal] = useState<number>(min);
   const [maxVal, setMaxVal] = useState<number>(max);
@@ -42,10 +49,14 @@ const Articles: MyPage = ({
   const [authorFilter, setAuthorFilter] = useState("");
   const [publisherFilter, setPublisherFilter] = useState("");
   const [topicFilter, setTopicFilter] = useState("");
-  const [singleYear, setSingleYear] = useState("");
-  const [searchWithin, setSearchWithin] = useState("");
+  const [singleYearFilter, setSingleYearFilter] = useState("");
+  const [searchWithinQuery, setSearchWithinQuery] = useState("");
+  const query = router.query;
 
   const swithHandler = (value: string): void => {
+    if (value === "range") {
+      setSingleYearFilter("");
+    }
     setSwitchYear(value);
   };
 
@@ -72,7 +83,7 @@ const Articles: MyPage = ({
       sortOrder = "desc";
     }
 
-    const currentQuery = { ...router.query };
+    const currentQuery = { ...query };
 
     if (sortField === "relevance") {
       currentQuery.sort_field = sortField;
@@ -91,7 +102,7 @@ const Articles: MyPage = ({
     const showPage = parseInt(e.target.value);
     setPerPage(showPage);
 
-    const currentQuery = { ...router.query };
+    const currentQuery = { ...query };
     currentQuery.per_page = showPage.toString();
 
     router.push({
@@ -106,7 +117,7 @@ const Articles: MyPage = ({
   ) => {
     setAuthorFilter(value);
 
-    const currentQuery = { ...router.query };
+    const currentQuery = { ...query };
     currentQuery.author_filter = value;
     setFilterCondition(true);
 
@@ -122,7 +133,7 @@ const Articles: MyPage = ({
   ) => {
     setPublisherFilter(value);
 
-    const currentQuery = { ...router.query };
+    const currentQuery = { ...query };
     currentQuery.journal_filter = value;
     setFilterCondition(true);
 
@@ -138,7 +149,7 @@ const Articles: MyPage = ({
   ) => {
     setTopicFilter(value);
 
-    const currentQuery = { ...router.query };
+    const currentQuery = { ...query };
     currentQuery.subject_filter = value;
     setFilterCondition(true);
 
@@ -149,8 +160,13 @@ const Articles: MyPage = ({
   };
 
   const singleYearhandler = () => {
-    const currentQuery = { ...router.query };
-    currentQuery.singleYear = singleYear;
+    const currentQuery = { ...query };
+    if (currentQuery.rangeYear) {
+      currentQuery.singleYear = singleYearFilter;
+      delete currentQuery.rangeYear;
+    } else {
+      currentQuery.singleYear = singleYearFilter;
+    }
     setFilterCondition(true);
 
     router.push({
@@ -160,7 +176,7 @@ const Articles: MyPage = ({
   };
 
   const rangeYearhandler = () => {
-    const currentQuery = { ...router.query };
+    const currentQuery = { ...query };
     if (currentQuery.singleYear) {
       currentQuery.rangeYear = minVal + "_" + maxVal;
       delete currentQuery.singleYear;
@@ -182,12 +198,12 @@ const Articles: MyPage = ({
 
   const searchWithHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    const currentQuery = { ...router.query };
+    const currentQuery = { ...query };
 
     if (currentQuery["search"]) {
-      currentQuery[`searchWithin`] = searchWithin;
+      currentQuery[`searchWithin`] = searchWithinQuery;
     } else {
-      currentQuery[`search`] = searchWithin;
+      currentQuery[`search`] = searchWithinQuery;
     }
 
     router.push({
@@ -197,7 +213,7 @@ const Articles: MyPage = ({
   };
 
   const resetFilter = () => {
-    const currentQuery = { ...router.query };
+    const currentQuery = { ...query };
 
     const resetQuery: any = {};
 
@@ -206,8 +222,8 @@ const Articles: MyPage = ({
     setAuthorFilter("");
     setPublisherFilter("");
     setTopicFilter("");
-    setSingleYear("");
-    setSearchWithin("");
+    setSingleYearFilter("");
+    setSearchWithinQuery("");
     setFilterCondition(false);
 
     if (currentQuery.sort_field) {
@@ -251,64 +267,142 @@ const Articles: MyPage = ({
     }
   }, [maxVal, getPercent]);
 
-  useEffect(() => {
-    const query = router.query;
+  const deleteQuery = (queryPath: string) => {
+    const currentQuery = { ...query };
 
-    const filterAuthor = query.author_filter as string;
-    const filterPublisher = query.journal_filter as string;
-    const filterSubject = query.subject_filter as string;
-    const filterSingle = query.singleYear as string;
-    const filterRange = query.rangeYear as string;
-    const searchValue = query.search as string;
-    const searchWithinValue = query.searchWithin as string;
-
-    if (authorFilter || filterAuthor) {
-      setAuthorFilter(filterAuthor);
-      setFilterCondition(true);
-    }
-
-    if (publisherFilter || filterPublisher) {
-      setPublisherFilter(filterPublisher);
-      setFilterCondition(true);
-    }
-
-    if (topicFilter || filterSubject) {
-      setTopicFilter(filterSubject);
-      setFilterCondition(true);
-    }
-
-    if (singleYear || filterSingle) {
-      setSingleYear(filterSingle);
-      setFilterCondition(true);
-      setSwitchYear("single");
-    }
-
-    if (filterRange) {
-      setMaxVal(parseInt(filterRange.split("_")[1]));
-      setMinVal(parseInt(filterRange.split("_")[0]));
-      setFilterCondition(true);
-      setSwitchYear("range");
-    }
-
-    if (searchValue) {
-      setFilterCondition(true);
-    }
-
-    if (searchWithin || searchWithinValue) {
-      setSearchWithin(searchWithinValue);
-      setFilterCondition(true);
-    }
-  }, [router.query]);
-
-  const deleteQuery = (query: string) => {
-    const currentQuery = { ...router.query };
-
-    if (currentQuery[query]) {
-      delete currentQuery[query];
+    if (currentQuery[queryPath]) {
+      delete currentQuery[queryPath];
     }
 
     router.push({ pathname: router.pathname, query: currentQuery });
   };
+
+  useEffect(() => {
+    fetch(`/api/articles`)
+      .then((res) => res.json())
+      .then((data) => {
+        setLoading(false);
+        setArticles(data.data);
+      });
+  }, []);
+
+  useEffect(() => {
+    const {
+      journal_filter,
+      singleYear,
+      rangeYear,
+      search,
+      searchWithin,
+      advancedQuery,
+      author_filter,
+      subject_filter,
+    } = query as {
+      page: string;
+      per_page: string;
+      sort_field: string;
+      sort_order: string;
+      search: string;
+      journal_filter: string;
+      singleYear: string;
+      rangeYear: string;
+      searchWithin: string;
+      advancedQuery: string;
+      author_filter: string;
+      subject_filter: string;
+    };
+
+    if (!authorFilter) {
+      setAuthorFilter(author_filter || "");
+    }
+
+    if (!publisherFilter) {
+      setPublisherFilter(journal_filter || "");
+    }
+
+    if (!singleYearFilter) {
+      setSingleYearFilter(singleYear || "");
+    }
+
+    if (!searchWithinQuery) {
+      setSearchWithinQuery(searchWithin || "");
+    }
+
+    if (!topicFilter) {
+      setTopicFilter(subject_filter || "");
+    }
+
+    if (!minVal && !maxVal && rangeYear) {
+      const [min, max] = rangeYear.split("_").map(Number);
+      setMinVal(min);
+      setMaxVal(max);
+      setSwitchYear("range");
+    }
+
+    setFilterCondition(
+      !!journal_filter ||
+        !!singleYear ||
+        !!rangeYear ||
+        !!search ||
+        !!searchWithin ||
+        !!advancedQuery
+    );
+  }, []);
+
+  useEffect(() => {
+    const params = query as {
+      page: string;
+      per_page: string;
+      sort_field: string;
+      sort_order: string;
+      search: string;
+      author_filter: string;
+      journal_filter: string;
+      subject_filter: string;
+      singleYear: string;
+      rangeYear: string;
+      searchWithin: string;
+      advancedQuery: string;
+    };
+
+    const queryParams = {
+      page: query.page || (1 as number),
+      per_page: query.per_page || (15 as number),
+      sort_field: query.sort_field || ("publish_at" as string),
+      sort_order: query.sort_order || ("desc" as string),
+      search: query.search || (undefined as string | undefined),
+      author_filter: query.author_filter || (undefined as string | undefined),
+      journal_filter: query.journal_filter || (undefined as string | undefined),
+      subject_filter: query.subject_filter || (undefined as string | undefined),
+      singleYear: query.singleYear || (undefined as string | undefined),
+      rangeYear: query.rangeYear || (undefined as string | undefined),
+      searchWithin: query.searchWithin || (undefined as string | undefined),
+      advancedQuery: query.advancedQuery || (undefined as string | undefined),
+    };
+
+    const nonEmptyQueryParams = Object.fromEntries(
+      Object.entries(queryParams).filter(([key, value]) => value !== undefined)
+    );
+
+    const { rangeYear, ...restQueryParams } = nonEmptyQueryParams;
+
+    const urlSearchParams = new URLSearchParams(
+      restQueryParams as Record<string, string>
+    );
+
+    let apiUrl = `api/articles?${urlSearchParams.toString()}`;
+
+    if (rangeYear) {
+      const [minVal, maxVal] = rangeYear.toString().split("_");
+      apiUrl += `&minYear=${minVal}&maxYear=${maxVal}`;
+    }
+
+    fetch(apiUrl)
+      .then((res) => res.json())
+      .then((data) => {
+        setLoading(false);
+        setArticles(data.data);
+      });
+  }, [query]);
 
   return (
     <>
@@ -317,7 +411,9 @@ const Articles: MyPage = ({
 
       {loading ? (
         <>
-          <Loading />
+          <div className="min-h-screen">
+            <Loading />
+          </div>
         </>
       ) : (
         <section className="container">
@@ -330,8 +426,8 @@ const Articles: MyPage = ({
                       type="text"
                       placeholder="Search within results ... "
                       name="seach"
-                      value={searchWithin}
-                      onChange={(e) => setSearchWithin(e.target.value)}
+                      value={searchWithinQuery}
+                      onChange={(e) => setSearchWithinQuery(e.target.value)}
                       className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg outline-none bg-slate-100/30 text-slate-900"
                     />
                     <button className="w-6 h-6 absolute right-2 top-3 text-slate-400">
@@ -471,13 +567,15 @@ const Articles: MyPage = ({
                             <input
                               type="text"
                               name="singleYear"
-                              value={singleYear}
-                              onChange={(e) => setSingleYear(e.target.value)}
+                              value={singleYearFilter}
+                              onChange={(e) =>
+                                setSingleYearFilter(e.target.value)
+                              }
                               className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg outline-none bg-slate-100/30 text-slate-900"
                             />
                           </div>
 
-                          {singleYear !== "" ? (
+                          {singleYearFilter !== "" ? (
                             <div className="relative mt-4 w-full flex justify-between">
                               <ButtonPrimary
                                 onClick={singleYearhandler}
@@ -502,7 +600,7 @@ const Articles: MyPage = ({
                         className="mt-4 w-full px-4 py-3 border-2 border-slate-200 rounded-lg outline-none bg-slate-100/30 text-slate-900"
                       />
                       <div className="mt-4 flex flex-col gap-y-1 max-h-[300px] overflow-y-scroll scroll-smooth scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-400 scrollbar-thumb-rounded-lg scrollbar-w-1">
-                        {articles.data?.aggrs.creators
+                        {articles.aggrs.creators
                           .filter((subject: any) =>
                             subject._id
                               .toLowerCase()
@@ -544,7 +642,7 @@ const Articles: MyPage = ({
                     <div>
                       <p className="font-medium">Publication Title</p>
                       <div className="mt-4 flex flex-col gap-y-1 max-h-[300px] overflow-y-scroll scroll-smooth scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-400 scrollbar-thumb-rounded-lg scrollbar-w-1">
-                        {articles.data?.aggrs.journal.map(
+                        {articles.aggrs.journal.map(
                           (journal: any, index: number) => (
                             <div
                               key={index}
@@ -589,7 +687,7 @@ const Articles: MyPage = ({
                         className="mt-4 w-full px-4 py-3 border-2 border-slate-200 rounded-lg outline-none bg-slate-100/30 text-slate-900"
                       />
                       <div className="mt-4 flex flex-col gap-y-1 max-h-[300px] overflow-y-scroll scroll-smooth scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-400 scrollbar-thumb-rounded-lg scrollbar-w-1">
-                        {articles.data?.aggrs.subjects
+                        {articles.aggrs.subjects
                           .filter((subject: any) =>
                             subject._id
                               .toLowerCase()
@@ -640,9 +738,8 @@ const Articles: MyPage = ({
                   <div className="text-lg">
                     Showing{" "}
                     <span className="font-medium">
-                      {articles.data?.current_page | 0}-
-                      {articles.data?.total_pages | 0} of{" "}
-                      {articles.data?.total | 0}
+                      {articles.current_page | 0}-{articles.total_pages | 0} of{" "}
+                      {articles.total | 0}
                     </span>{" "}
                     results
                   </div>
@@ -683,14 +780,14 @@ const Articles: MyPage = ({
                     )}
                   </div>
                 </div>
-                {router.query.search ||
-                router.query.author_filter ||
-                router.query.journal_filter ||
-                router.query.subject_filter ||
-                router.query.singleYear ||
-                router.query.rangeYear ||
-                router.query.searchWithin ||
-                router.query.advancedQuery ? (
+                {query.search ||
+                query.author_filter ||
+                query.journal_filter ||
+                query.subject_filter ||
+                query.singleYear ||
+                query.rangeYear ||
+                query.searchWithin ||
+                query.advancedQuery ? (
                   <div className="relative shadow-inner pb-3 pt-8 flex justify-start items-start gap-3 px-4 rounded-lg">
                     <div className="absolute shadow-inner -top-2.5 bg-white font-normal px-3 py-1 text-sm rounded-lg left-1">
                       Filter
@@ -704,12 +801,13 @@ const Articles: MyPage = ({
                       "rangeYear",
                       "searchWithin",
                       "advancedQuery",
-                    ].map((filterKey) => (
+                    ].map((filterKey, index) => (
                       <>
-                        {router.query[filterKey] && (
+                        {query[filterKey] && (
                           <p className="bg-slate-50 px-4 py-2.5 relative">
-                            {router.query[filterKey]}
+                            {query[filterKey]}
                             <button
+                              key={index}
                               onClick={(e) => deleteQuery(filterKey)}
                               className="p-0.5 absolute -top-2 -right-2 bg-white rounded-lg shadow-inner"
                             >
@@ -736,23 +834,21 @@ const Articles: MyPage = ({
                 )}
 
                 <div className="mt-8 grid grid-cols-3 gap-5">
-                  {articles.data?.articles.map(
-                    (article: any, index: number) => (
-                      <ArticleCard
-                        key={index}
-                        title={article.title}
-                        href={article._id}
-                        topic={article.subjects}
-                        image={article.thumbnail}
-                        journalName={article.journal.abbreviation}
-                      />
-                    )
-                  )}
+                  {articles.articles.map((article: any, index: number) => (
+                    <ArticleCard
+                      key={index}
+                      title={article.title}
+                      href={article._id}
+                      topic={article.subjects}
+                      image={article.thumbnail}
+                      journalName={article.journal.abbreviation}
+                    />
+                  ))}
                 </div>
                 <div className="mt-10 flex justify-end">
                   <Pagination
-                    currentPage={articles.data?.current_page}
-                    totalPages={articles.data?.total_pages}
+                    currentPage={articles.current_page}
+                    totalPages={articles.total_pages}
                     perPage={perPage}
                   />
                 </div>
@@ -768,77 +864,3 @@ const Articles: MyPage = ({
 };
 export default Articles;
 Articles.Layout = "Main";
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  try {
-    let loading = true;
-    const query = ctx.query as {
-      page: string;
-      per_page: string;
-      sort_field: string;
-      sort_order: string;
-      search: string;
-      author_filter: string;
-      journal_filter: string;
-      subject_filter: string;
-      singleYear: string;
-      rangeYear: string;
-      searchWithin: string;
-      advancedQuery: string;
-    };
-
-    const queryParams = {
-      page: query.page || (1 as number),
-      per_page: query.per_page || (15 as number),
-      sort_field: query.sort_field || ("publish_at" as string),
-      sort_order: query.sort_order || ("desc" as string),
-      search: query.search || (undefined as string | undefined),
-      author_filter: query.author_filter || (undefined as string | undefined),
-      journal_filter: query.journal_filter || (undefined as string | undefined),
-      subject_filter: query.subject_filter || (undefined as string | undefined),
-      singleYear: query.singleYear || (undefined as string | undefined),
-      rangeYear: query.rangeYear || (undefined as string | undefined),
-      searchWithin: query.searchWithin || (undefined as string | undefined),
-      advancedQuery: query.advancedQuery || (undefined as string | undefined),
-    };
-
-    const nonEmptyQueryParams = Object.fromEntries(
-      Object.entries(queryParams).filter(([key, value]) => value !== undefined)
-    );
-
-    const { rangeYear, ...restQueryParams } = nonEmptyQueryParams;
-
-    const urlSearchParams = new URLSearchParams(
-      restQueryParams as Record<string, string>
-    );
-
-    let apiUrl = `http://127.0.0.1:6543/articles?${urlSearchParams.toString()}`;
-
-    if (rangeYear) {
-      const [minVal, maxVal] = rangeYear.toString().split("_");
-      apiUrl += `&minYear=${minVal}&maxYear=${maxVal}`;
-    }
-
-    const res = await fetch(apiUrl);
-    const articles = await res.json();
-
-    loading = false;
-
-    const props = {
-      articles,
-      loading,
-    };
-
-    return {
-      props,
-    };
-  } catch (error) {
-    return {
-      props: {
-        articles: [],
-        loading: false,
-        error: "Failed to fetch articles",
-      },
-    };
-  }
-};

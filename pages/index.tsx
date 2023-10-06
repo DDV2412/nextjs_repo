@@ -1,111 +1,126 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NextSeo } from "next-seo";
 import { MyPage } from "./../components/common/types";
 import Link from "next/link";
 import ButtonLink from "@/components/link/ButtonLink";
 import HeroSection from "@/components/common/Hero";
 import CTA from "@/components/common/CTA";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next/types";
 import ArticleCard from "@/components/card/ArticleCard";
 import { Loading } from "@/components/common/Loading";
+import Image from "next/image";
 
-const Home: MyPage = ({
-  articles,
-  loading,
-  error,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Home: MyPage = () => {
+  const [articles, setArticles] = useState({
+    articles: [],
+    aggrs: {
+      subjects: [],
+    },
+  });
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    fetch("/api/featured")
+      .then((res) => res.json())
+      .then((data) => {
+        setLoading(false);
+        setArticles(data.data);
+      });
+  }, []);
   return (
     <>
       <NextSeo title="IPMUGO Digital Library" />
       <HeroSection />
 
-      {loading ? (
-        <>
-          <Loading />
-        </>
-      ) : (
-        <>
-          <section className="container">
-            <div className="pt-16 pb-10">
-              <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-semibold">
-                  Browse Trending Topics
-                </h2>
-                <Link
-                  href="#"
-                  className="flex group justify-start items-center gap-2 text-sm font-medium transition-all duration-150"
-                >
-                  <span>View All Topics</span>
-                  <div className="w-5 h-5 flex justify-center items-center group-hover:translate-x-3 transition-all duration-150">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="100%"
-                      height="100%"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M12.9697 3.96967C13.2626 3.67678 13.7374 3.67678 14.0303 3.96967L21.5303 11.4697C21.671 11.6103 21.75 11.8011 21.75 12C21.75 12.1989 21.671 12.3897 21.5303 12.5303L14.0303 20.0303C13.7374 20.3232 13.2626 20.3232 12.9697 20.0303C12.6768 19.7374 12.6768 19.2626 12.9697 18.9697L19.1893 12.75H3C2.58579 12.75 2.25 12.4142 2.25 12C2.25 11.5858 2.58579 11.25 3 11.25H19.1893L12.9697 5.03033C12.6768 4.73744 12.6768 4.26256 12.9697 3.96967Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </div>
-                </Link>
-              </div>
-              <div className="mt-10 flex justify-between items-center gap-4">
-                {articles.data?.aggrs.subjects.map(
-                  (aggr: any, index: number) =>
-                    index <= 6 &&
-                    aggr._id !== "" && (
-                      <Link
-                        href={`/articles?search=${aggr._id}`}
-                        key={index}
-                        className="bg-slate-900 text-white flex-1 hover:shadow-lg cursor-pointer hover:scale-105 transition-all duration-150 h-28 flex justify-center items-center text-lg font-medium text-center"
-                      >
-                        {aggr._id}
-                      </Link>
-                    )
-                )}
-              </div>
-            </div>
-          </section>
-          <section className="container">
-            <div className="pt-6 pb-10">
-              <div className="grid grid-cols-4 gap-5">
-                <div className="min-h-[40rem] relative w-full overflow-hidden row-span-2 pt-10 px-6 bg-slate-900 flex flex-col gap-4">
-                  <h2 className="text-2xl font-semibold text-white">
-                    Featured Articles
+      <>
+        {loading ? (
+          <div className="min-h-screen">
+            <Loading />
+          </div>
+        ) : (
+          <>
+            <section className="container">
+              <div className="pt-16 pb-10">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-2xl font-semibold">
+                    Browse Trending Topics
                   </h2>
-                  <p className="text-white text-lg">
-                    Explore our selection of top research articles from various
-                    fields.
-                  </p>
-                  <ButtonLink href="/articles">View all featured</ButtonLink>
-                  <figure className="overflow-hidden absolute left-0 -right-16 -bottom-14">
-                    <img
-                      src="/images/ilustration-box.svg"
-                      alt=""
-                      className="object-cover w-full"
-                    />
-                  </figure>
+                  <Link
+                    href="#"
+                    className="flex group justify-start items-center gap-2 text-sm font-medium transition-all duration-150"
+                  >
+                    <span>View All Topics</span>
+                    <div className="w-5 h-5 flex justify-center items-center group-hover:translate-x-3 transition-all duration-150">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M12.9697 3.96967C13.2626 3.67678 13.7374 3.67678 14.0303 3.96967L21.5303 11.4697C21.671 11.6103 21.75 11.8011 21.75 12C21.75 12.1989 21.671 12.3897 21.5303 12.5303L14.0303 20.0303C13.7374 20.3232 13.2626 20.3232 12.9697 20.0303C12.6768 19.7374 12.6768 19.2626 12.9697 18.9697L19.1893 12.75H3C2.58579 12.75 2.25 12.4142 2.25 12C2.25 11.5858 2.58579 11.25 3 11.25H19.1893L12.9697 5.03033C12.6768 4.73744 12.6768 4.26256 12.9697 3.96967Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                  </Link>
                 </div>
-                {articles.data?.articles.map((article: any, index: number) => (
-                  <ArticleCard
-                    key={index}
-                    title={article.title}
-                    href={article._id}
-                    topic={article.subjects}
-                    image={article.thumbnail}
-                    journalName={article.journal.abbreviation}
-                  />
-                ))}
+                <div className="mt-10 flex justify-between items-center gap-4">
+                  {articles.aggrs.subjects.map(
+                    (aggr: any, index: number) =>
+                      index <= 6 &&
+                      aggr._id !== "" && (
+                        <Link
+                          href={`/articles?search=${aggr._id}`}
+                          key={index}
+                          className="bg-slate-900 text-white flex-1 hover:shadow-lg cursor-pointer hover:scale-105 transition-all duration-150 h-28 flex justify-center items-center text-lg font-medium text-center"
+                        >
+                          {aggr._id}
+                        </Link>
+                      )
+                  )}
+                </div>
               </div>
-            </div>
-          </section>
-        </>
-      )}
+            </section>
+            <section className="container">
+              <div className="pt-6 pb-10">
+                <div className="grid grid-cols-4 gap-5">
+                  <div className="min-h-[40rem] relative w-full overflow-hidden row-span-2 pt-10 px-6 bg-slate-900 flex flex-col gap-4">
+                    <h2 className="text-2xl font-semibold text-white">
+                      Featured Articles
+                    </h2>
+                    <p className="text-white text-lg">
+                      Explore our selection of top research articles from
+                      various fields.
+                    </p>
+                    <ButtonLink href="/articles">View all featured</ButtonLink>
+                    <figure className="overflow-hidden absolute left-0 -right-16 -bottom-14">
+                      <Image
+                        src="/images/ilustration-box.svg"
+                        alt=""
+                        className="object-cover w-full"
+                        width={500}
+                        height={500}
+                      />
+                    </figure>
+                  </div>
+                  {articles.articles.map((article: any, index: number) => (
+                    <ArticleCard
+                      key={index}
+                      title={article.title}
+                      href={article._id}
+                      topic={article.subjects}
+                      image={article.thumbnail}
+                      journalName={article.journal.abbreviation}
+                    />
+                  ))}
+                </div>
+              </div>
+            </section>
+          </>
+        )}
+      </>
       {/* <section className="container">
         <div className="pt-6 pb-10">
           <div className="grid grid-cols-2 gap-4">
@@ -121,7 +136,7 @@ const Home: MyPage = ({
               <ButtonLink href="#">Get Inspired</ButtonLink>
             </div>
             <figure className="relative w-full h-80 scale-125 overflow-hidden">
-              <img
+              <Image
                 src="/images/oCrXVgYfdQ0SZwjsdo6PGN2d4cU.webp"
                 alt=""
                 className="object-cover w-full absolute -right-24 bottom-0"
@@ -143,7 +158,7 @@ const Home: MyPage = ({
               </p>
               <ButtonLink href="#">Shop the sale</ButtonLink>
               <figure className="w-full h-80 absolute bottom-0">
-                <img
+                <Image
                   src="/images/BcF4Ulw9qhiiJTIMyymR4kBM58.webp"
                   alt=""
                   className="w-full h-full object-contain scale-125"
@@ -159,7 +174,7 @@ const Home: MyPage = ({
                 </p>
               </div>
               <figure className="w-full h-52 relative">
-                <img
+                <Image
                   src="/images/Vqy4IuHWjdCz6T5jNR8XxMDh1Q.webp"
                   alt=""
                   className="w-full h-full object-contain absolute -right-20"
@@ -175,7 +190,7 @@ const Home: MyPage = ({
                 </p>
               </div>
               <figure className="w-full h-52 relative">
-                <img
+                <Image
                   src="/images/KtTgv89LTSqnF0PEVecRTqnK8.webp"
                   alt=""
                   className="w-full h-full object-contain absolute -right-20"
@@ -214,9 +229,9 @@ const Home: MyPage = ({
           </div>
           <div className="mt-10 grid grid-cols-4 gap-5">
             <article className="h-full w-full">
-              <Link href="#" replace className="flex flex-col gap-4">
+              <Link href="#"  className="flex flex-col gap-4">
                 <figure className="min-w-full overflow-hidden h-48">
-                  <img src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
+                  <Image src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
                 </figure>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-xl font-medium">
@@ -229,9 +244,9 @@ const Home: MyPage = ({
               </Link>
             </article>
             <article className="h-full w-full">
-              <Link href="#" replace className="flex flex-col gap-4">
+              <Link href="#"  className="flex flex-col gap-4">
                 <figure className="min-w-full overflow-hidden h-48">
-                  <img src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
+                  <Image src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
                 </figure>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-xl font-medium">
@@ -244,9 +259,9 @@ const Home: MyPage = ({
               </Link>
             </article>
             <article className="h-full w-full">
-              <Link href="#" replace className="flex flex-col gap-4">
+              <Link href="#"  className="flex flex-col gap-4">
                 <figure className="min-w-full overflow-hidden h-48">
-                  <img src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
+                  <Image src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
                 </figure>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-xl font-medium">
@@ -259,9 +274,9 @@ const Home: MyPage = ({
               </Link>
             </article>
             <article className="h-full w-full">
-              <Link href="#" replace className="flex flex-col gap-4">
+              <Link href="#"  className="flex flex-col gap-4">
                 <figure className="min-w-full overflow-hidden h-48">
-                  <img src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
+                  <Image src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
                 </figure>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-xl font-medium">
@@ -274,9 +289,9 @@ const Home: MyPage = ({
               </Link>
             </article>
             <article className="h-full w-full">
-              <Link href="#" replace className="flex flex-col gap-4">
+              <Link href="#"  className="flex flex-col gap-4">
                 <figure className="min-w-full overflow-hidden h-48">
-                  <img src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
+                  <Image src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
                 </figure>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-xl font-medium">
@@ -289,9 +304,9 @@ const Home: MyPage = ({
               </Link>
             </article>
             <article className="h-full w-full">
-              <Link href="#" replace className="flex flex-col gap-4">
+              <Link href="#"  className="flex flex-col gap-4">
                 <figure className="min-w-full overflow-hidden h-48">
-                  <img src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
+                  <Image src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
                 </figure>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-xl font-medium">
@@ -304,9 +319,9 @@ const Home: MyPage = ({
               </Link>
             </article>
             <article className="h-full w-full">
-              <Link href="#" replace className="flex flex-col gap-4">
+              <Link href="#"  className="flex flex-col gap-4">
                 <figure className="min-w-full overflow-hidden h-48">
-                  <img src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
+                  <Image src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
                 </figure>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-xl font-medium">
@@ -319,9 +334,9 @@ const Home: MyPage = ({
               </Link>
             </article>
             <article className="h-full w-full">
-              <Link href="#" replace className="flex flex-col gap-4">
+              <Link href="#"  className="flex flex-col gap-4">
                 <figure className="min-w-full overflow-hidden h-48">
-                  <img src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
+                  <Image src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
                 </figure>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-xl font-medium">
@@ -334,9 +349,9 @@ const Home: MyPage = ({
               </Link>
             </article>
             <article className="h-full w-full">
-              <Link href="#" replace className="flex flex-col gap-4">
+              <Link href="#"  className="flex flex-col gap-4">
                 <figure className="min-w-full overflow-hidden h-48">
-                  <img src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
+                  <Image src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
                 </figure>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-xl font-medium">
@@ -349,9 +364,9 @@ const Home: MyPage = ({
               </Link>
             </article>
             <article className="h-full w-full">
-              <Link href="#" replace className="flex flex-col gap-4">
+              <Link href="#"  className="flex flex-col gap-4">
                 <figure className="min-w-full overflow-hidden h-48">
-                  <img src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
+                  <Image src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
                 </figure>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-xl font-medium">
@@ -364,9 +379,9 @@ const Home: MyPage = ({
               </Link>
             </article>
             <article className="h-full w-full">
-              <Link href="#" replace className="flex flex-col gap-4">
+              <Link href="#"  className="flex flex-col gap-4">
                 <figure className="min-w-full overflow-hidden h-48">
-                  <img src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
+                  <Image src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
                 </figure>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-xl font-medium">
@@ -379,9 +394,9 @@ const Home: MyPage = ({
               </Link>
             </article>
             <article className="h-full w-full">
-              <Link href="#" replace className="flex flex-col gap-4">
+              <Link href="#"  className="flex flex-col gap-4">
                 <figure className="min-w-full overflow-hidden h-48">
-                  <img src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
+                  <Image src="/images/jmBCjQcfOSX3R5n8UOZa7XCiPMg.webp" alt="" />
                 </figure>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-xl font-medium">
@@ -402,31 +417,3 @@ const Home: MyPage = ({
 };
 export default Home;
 Home.Layout = "Main";
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const apiUrl = `http://127.0.0.1:6543/articles?featured=true`;
-
-  try {
-    let loading = true;
-    const res = await fetch(apiUrl);
-
-    const articles = await res.json();
-
-    loading = false;
-
-    const props = {
-      articles,
-      loading,
-    };
-
-    return { props };
-  } catch (error) {
-    return {
-      props: {
-        articles: [],
-        loading: false,
-        error: "Failed to fetch articles",
-      },
-    };
-  }
-};

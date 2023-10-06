@@ -1,36 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NextSeo } from "next-seo";
 import { MyPage } from "../components/common/types";
 import HeroSection from "@/components/common/Hero";
 import CTA from "@/components/common/CTA";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { Loading } from "@/components/common/Loading";
+import Image from "next/image";
 
-const Journals: MyPage = ({
-  journals,
-  loading,
-  error,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Journals: MyPage = () => {
+  const [journals, setJournals] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/journals")
+      .then((res) => res.json())
+      .then((data) => {
+        setLoading(false);
+        setJournals(data.data);
+      });
+  }, []);
+
   return (
     <>
       <NextSeo title="Journals | IPMUGO Digital Library" />
       <HeroSection />
 
-      {loading ? (
-        <>
-          <Loading />
-        </>
-      ) : (
-        <section className="container">
-          <div className="py-10">
+      <section className="container min-h-screen">
+        <div className="py-10">
+          {loading ? (
+            <div className="min-h-screen">
+              <Loading />
+            </div>
+          ) : (
             <div className="grid grid-cols-3 gap-5">
-              {journals.data.map((journal: any) => (
+              {journals.map((journal: any) => (
                 <div
                   key={journal._id}
                   className="relative min-w-full min-h-full overflow-hidden rounded-lg"
                 >
                   <figure>
-                    <img src={journal.thumbnail_image} alt={journal.title} />
+                    <Image
+                      src={journal.thumbnail_image}
+                      alt={journal.title}
+                      width={500}
+                      height={500}
+                    />
                   </figure>
                   <div className="absolute flex flex-col gap-3 left-0 bottom-0 right-0 min-h-[40%] bg-white/80 backdrop-blur-sm p-4 rounded-t-lg">
                     <h3 className="text-xl font-medium line-clamp-2">
@@ -47,9 +60,9 @@ const Journals: MyPage = ({
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-      )}
+          )}
+        </div>
+      </section>
 
       <CTA />
     </>
@@ -57,33 +70,3 @@ const Journals: MyPage = ({
 };
 export default Journals;
 Journals.Layout = "Main";
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  try {
-    let loading = true;
-
-    let apiUrl = `http://127.0.0.1:6543/journals`;
-
-    const res = await fetch(apiUrl);
-    const journals = await res.json();
-
-    loading = false;
-
-    const props = {
-      journals,
-      loading,
-    };
-
-    return {
-      props,
-    };
-  } catch (error) {
-    return {
-      props: {
-        articles: [],
-        loading: false,
-        error: "Failed to fetch journals",
-      },
-    };
-  }
-};

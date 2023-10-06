@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 
 interface PaginationProps {
   currentPage: number;
@@ -14,24 +14,24 @@ export const Pagination = ({
 }: PaginationProps) => {
   const router = useRouter();
 
-  // Fungsi untuk menangani perubahan halaman
-  const handlePageChange = (newPage: number) => {
-    const currentQuery = { ...router.query };
-    currentQuery.page = newPage.toString();
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      const currentQuery = { ...router.query };
+      currentQuery.page = newPage.toString();
 
-    router.push({
-      pathname: router.pathname,
-      query: currentQuery,
-    });
-  };
+      router.push({
+        pathname: router.pathname,
+        query: currentQuery,
+      });
+    },
+    [router]
+  );
 
   useEffect(() => {
     if (totalPages < perPage) {
       handlePageChange(1);
     }
   }, [totalPages, perPage]);
-
-  const displayPagination = totalPages > perPage;
 
   const displayPages = 5;
   const halfDisplayPages = Math.floor(displayPages / 2);

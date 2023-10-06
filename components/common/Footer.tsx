@@ -11,12 +11,12 @@ const Footer = () => {
             <h4 className="font-medium">Products</h4>
             <ul className="flex flex-col justify-start gap-3">
               <li>
-                <Link href="#" replace className="text-slate-400">
+                <Link href="#" className="text-slate-400">
                   Publication
                 </Link>
               </li>
               <li>
-                <Link href="#" replace className="text-slate-400">
+                <Link href="#" className="text-slate-400">
                   Library
                 </Link>
               </li>
@@ -26,12 +26,12 @@ const Footer = () => {
             <h4 className="font-medium">Company</h4>
             <ul className="flex flex-col justify-start gap-3">
               <li>
-                <Link href="#" replace className="text-slate-400">
+                <Link href="#" className="text-slate-400">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="#" replace className="text-slate-400">
+                <Link href="#" className="text-slate-400">
                   Contact
                 </Link>
               </li>
@@ -41,17 +41,17 @@ const Footer = () => {
             <h4 className="font-medium">Resources</h4>
             <ul className="flex flex-col justify-start gap-3">
               <li>
-                <Link href="#" replace className="text-slate-400">
+                <Link href="#" className="text-slate-400">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="#" replace className="text-slate-400">
+                <Link href="#" className="text-slate-400">
                   Terms & Conditions
                 </Link>
               </li>
               <li>
-                <Link href="#" replace className="text-slate-400">
+                <Link href="#" className="text-slate-400">
                   FAQs
                 </Link>
               </li>
@@ -77,7 +77,6 @@ const Footer = () => {
               <div className="flex justify-end items-center gap-3">
                 <Link
                   href="#"
-                  replace
                   className="w-6 h-6 flex justify-center items-center text-slate-200"
                 >
                   <svg
@@ -102,7 +101,6 @@ const Footer = () => {
                 </Link>
                 <Link
                   href="#"
-                  replace
                   className="w-6 h-6 flex justify-center items-center text-slate-200"
                 >
                   <svg
@@ -120,7 +118,6 @@ const Footer = () => {
                 </Link>
                 <Link
                   href="#"
-                  replace
                   className="w-6 h-6 flex justify-center items-center text-slate-200"
                 >
                   <svg
@@ -138,7 +135,6 @@ const Footer = () => {
                 </Link>
                 <Link
                   href="#"
-                  replace
                   className="w-6 h-6 flex justify-center items-center text-slate-200"
                 >
                   <svg
