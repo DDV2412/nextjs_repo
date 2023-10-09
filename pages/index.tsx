@@ -74,7 +74,7 @@ const Home: MyPage = () => {
                           aria-label="Search Article"
                           href={`/articles?search=${aggr._id}`}
                           key={index}
-                          className="bg-slate-900 text-white flex-0 min-w-max px-6 hover:shadow-lg cursor-pointer hover:scale-105 transition-all duration-150 h-28 flex justify-center items-center text-lg font-medium text-center">
+                          className="bg-slate-900 text-white flex-0 w-48 px-6 hover:shadow-lg cursor-pointer hover:scale-105 transition-all duration-150 h-28 flex justify-center items-center text-lg font-medium text-center">
                           {aggr._id}
                         </Link>
                       ),
