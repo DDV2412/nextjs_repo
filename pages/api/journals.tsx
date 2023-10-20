@@ -11,7 +11,7 @@ const journals = async (
   res: NextApiResponse<ResponseData>,
 ) => {
   try {
-    const response = await fetch('http://103.102.152.252/journals');
+    const response = await fetch('http://127.0.0.1:6543/journals');
 
     const data = await response.json();
 

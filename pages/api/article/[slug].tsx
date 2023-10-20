@@ -13,7 +13,7 @@ const featured = async (
   try {
     const { slug } = req.query;
 
-    const response = await fetch(`http://103.102.152.252/article/${slug}`);
+    const response = await fetch(`http://127.0.0.1:6543/article/${slug}`);
 
     const data = await response.json();
 

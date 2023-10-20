@@ -11,7 +11,7 @@ const articles = async (
   res: NextApiResponse<ResponseData>,
 ) => {
   try {
-    const baseUrl = 'http://103.102.152.252/articles';
+    const baseUrl = 'http://127.0.0.1:6543/articles';
     const queryParams = req.query;
     const apiUrl = new URL(baseUrl);
 

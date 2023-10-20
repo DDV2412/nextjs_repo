@@ -12,7 +12,7 @@ const featured = async (
 ) => {
   try {
     const response = await fetch(
-      `http://103.102.152.252/articles?featured=true`,
+      `http://127.0.0.1:6543/articles?featured=true`,
     );
 
     const data = await response.json();
