@@ -4,22 +4,33 @@ import Image from 'next/image';
 interface NextLinkProps {
   href: string;
   title: string;
-  topic: string;
+  publishDate: string;
   image: string;
   journalName: string;
-  publishDate?: string;
-  authors?: string;
+  creators: [];
 }
 
 const ArticleCard = ({
   href,
   title,
-  topic,
+  publishDate,
   image,
   journalName,
-  publishDate,
-  authors,
+  creators,
 }: NextLinkProps) => {
+  const formatDate = (inputDate: string): string => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: '2-digit',
+    };
+    const formattedDate: string = new Date(inputDate).toLocaleDateString(
+      'en-US',
+      options,
+    );
+    return formattedDate;
+  };
+
   return (
     <article className="h-full w-full">
       <Link aria-label="Brand Logo" href={href} className="flex flex-col gap-4">
@@ -33,9 +44,19 @@ const ArticleCard = ({
           />
         </figure>
         <div className="flex flex-col gap-2">
-          <h3 className="text-xl font-medium line-clamp-2">{title}</h3>
-          <p className="text-sm text-slate-500">
-            in <span className="font-semibold">{publishDate}</span>
+          <h3 className="text-xl font-medium">{title}</h3>
+          <p className="text-sm font-medium">
+            {creators.map((creator: string, index: number) => (
+              <>
+                <span>
+                  {creator.split(',')[1]} {creator.split(',')[0]}
+                </span>
+                {index < creators.length - 1 && ','}
+              </>
+            ))}
+          </p>
+          <p className="text-slate-900 text-sm">
+            {formatDate(publishDate)}, {journalName}
           </p>
         </div>
       </Link>

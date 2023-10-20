@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
 
 type ResponseData = {
   status: string;
@@ -8,10 +8,10 @@ type ResponseData = {
 
 const articles = async (
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData>,
 ) => {
   try {
-    const baseUrl = "http://127.0.0.1:6543/articles";
+    const baseUrl = 'http://103.102.152.252/articles';
     const queryParams = req.query;
     const apiUrl = new URL(baseUrl);
 
@@ -26,12 +26,12 @@ const articles = async (
     const data = await response.json();
 
     res.status(200).json({
-      status: "success",
+      status: 'success',
       data: data.data,
     });
   } catch (error) {
     res.status(502).json({
-      status: "error",
+      status: 'error',
     });
   }
 };

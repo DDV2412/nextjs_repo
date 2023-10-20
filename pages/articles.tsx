@@ -11,7 +11,6 @@ import HeroSection from '@/components/common/Hero';
 import CTA from '@/components/common/CTA';
 import classnames from 'classnames';
 import ButtonPrimary from '@/components/button/ButtonPrimary';
-import ArticleCard from '@/components/card/ArticleCard';
 import { Pagination } from '@/components/link/Pagination';
 import { useRouter } from 'next/router';
 import { Loading } from '@/components/common/Loading';
@@ -53,6 +52,19 @@ const Articles: MyPage = () => {
   const [singleYearFilter, setSingleYearFilter] = useState('');
   const [searchWithinQuery, setSearchWithinQuery] = useState('');
   const query = router.query;
+
+  const formatDate = (inputDate: string): string => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: '2-digit',
+    };
+    const formattedDate: string = new Date(inputDate).toLocaleDateString(
+      'en-US',
+      options,
+    );
+    return formattedDate;
+  };
 
   const swithHandler = (value: string): void => {
     if (value === 'range') {
@@ -824,16 +836,37 @@ const Articles: MyPage = () => {
 
                 <div className="mt-8 grid grid-cols-1 gap-5">
                   {articles?.articles.map((article: any, index: number) => (
-                    <article key={index} className="h-full w-full">
+                    <article
+                      key={index}
+                      className="h-full w-full pb-5 border-b-[1px] border-slate-900/10">
                       <Link
                         aria-label="Brand Logo"
-                        href="#"
-                        className="flex flex-col gap-4">
-                        <div className="flex flex-col gap-2">
-                          <h3 className="text-xl font-medium line-clamp-2"></h3>
-                          <p className="text-sm text-slate-500">
-                            in
-                            <span className="font-semibold"></span>
+                        href={article._id}
+                        className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-1">
+                          <h3 className="text-xl font-medium">
+                            {article.title}
+                          </h3>
+                          <p className="text-sm text-slate-900 font-medium">
+                            {article?.creators.map(
+                              (creator: string, index: number) => (
+                                <>
+                                  <span>
+                                    {creator.split(',')[1]}{' '}
+                                    {creator.split(',')[0]}
+                                  </span>
+                                  {index < article?.creators.length - 1 && ','}
+                                </>
+                              ),
+                            )}
+                          </p>
+                          <p className="text-slate-700 text-sm">
+                            {formatDate(article.publish_at)},{' '}
+                            {article.journal.title}
+                          </p>
+
+                          <p className="text-slate-700 text-xs line-clamp-2">
+                            {article.description}
                           </p>
                         </div>
                       </Link>

@@ -84,7 +84,7 @@ const Home: MyPage = () => {
             </section>
             <section className="container">
               <div className="pt-6 pb-10">
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                   <div className="relative w-full overflow-hidden lg:row-span-2 py-12 px-6 bg-[url('/images/banner.webp')] flex flex-col gap-4">
                     <h2 className="text-2xl font-semibold text-white">
                       Featured Articles
@@ -100,9 +100,10 @@ const Home: MyPage = () => {
                       key={index}
                       title={article.title}
                       href={article._id}
-                      topic={article.subjects}
+                      publishDate={article.publish_at}
                       image={article.thumbnail}
-                      journalName={article.journal.abbreviation}
+                      journalName={article.journal.title}
+                      creators={article.creators}
                     />
                   ))}
                 </div>
