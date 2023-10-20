@@ -15,6 +15,7 @@ import ArticleCard from '@/components/card/ArticleCard';
 import { Pagination } from '@/components/link/Pagination';
 import { useRouter } from 'next/router';
 import { Loading } from '@/components/common/Loading';
+import Link from 'next/link';
 
 const Articles: MyPage = () => {
   const currentYear = new Date().getFullYear();
@@ -821,16 +822,22 @@ const Articles: MyPage = () => {
                   <></>
                 )}
 
-                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="mt-8 grid grid-cols-1 gap-5">
                   {articles?.articles.map((article: any, index: number) => (
-                    <ArticleCard
-                      key={index}
-                      title={article.title}
-                      href={article._id}
-                      topic={article.subjects}
-                      image={article.thumbnail}
-                      journalName={article.journal.abbreviation}
-                    />
+                    <article key={index} className="h-full w-full">
+                      <Link
+                        aria-label="Brand Logo"
+                        href="#"
+                        className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-2">
+                          <h3 className="text-xl font-medium line-clamp-2"></h3>
+                          <p className="text-sm text-slate-500">
+                            in
+                            <span className="font-semibold"></span>
+                          </p>
+                        </div>
+                      </Link>
+                    </article>
                   ))}
                 </div>
                 <div className="mt-10 flex justify-end">

@@ -7,6 +7,8 @@ interface NextLinkProps {
   topic: string;
   image: string;
   journalName: string;
+  publishDate?: string;
+  authors?: string;
 }
 
 const ArticleCard = ({
@@ -15,6 +17,8 @@ const ArticleCard = ({
   topic,
   image,
   journalName,
+  publishDate,
+  authors,
 }: NextLinkProps) => {
   return (
     <article className="h-full w-full">
@@ -31,10 +35,7 @@ const ArticleCard = ({
         <div className="flex flex-col gap-2">
           <h3 className="text-xl font-medium line-clamp-2">{title}</h3>
           <p className="text-sm text-slate-500">
-            in{' '}
-            <span className="font-semibold">
-              {topic.length > 0 ? topic[0] : journalName}
-            </span>
+            in <span className="font-semibold">{publishDate}</span>
           </p>
         </div>
       </Link>

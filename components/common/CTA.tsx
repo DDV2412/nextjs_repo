@@ -6,23 +6,15 @@ const CTA = () => {
     <>
       <section className="mt-6 bg-indigo-700 h-full py-8">
         <div className="container h-full">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 h-full items-center gap-16">
-            <div className="lg:col-span-2 h-40 flex flex-col gap-4 justify-center md:border-r-2 border-b-2 md:border-b-0 border-dashed">
+          <div className="grid grid-cols-1 h-full items-center gap-16">
+            <div className="h-40 flex flex-col gap-4 justify-center">
               <h2 className="text-2xl font-semibold text-white">
-                Get Unlimited Access
+                Enjoy Free and Unlimited Access
               </h2>
               <p className="text-white md:max-w-[70%]">
-                Save 15% off assets with membership. Unlock Orca unlimited
-                access to all 1000+ templates available and save over $299.
+                Get high-quality articles from top researchers for free.
               </p>
-            </div>
-            <div className="h-full flex flex-col gap-4 justify-center">
-              <h2 className="text-2xl font-semibold text-white">
-                <span className="text-4xl">$19</span> /month
-              </h2>
-              <ButtonLinkSecondary href="#">
-                Go Unlimited Now
-              </ButtonLinkSecondary>
+              <ButtonLinkSecondary href="#">Subscribe Now</ButtonLinkSecondary>
             </div>
           </div>
         </div>
